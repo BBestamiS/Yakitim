@@ -1,312 +1,293 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:yakitim/ekranlar/araclar.dart';
+import 'package:yakitim/ekranlar/yakitAldim.dart';
 
-class AnaEkran extends StatelessWidget {
+class AnaEkran extends StatefulWidget {
+  @override
+  State<StatefulWidget> createState() {
+    return _AnaEkran();
+  }
+}
+
+class _AnaEkran extends State {
+  var buton = button1();
+  var yazi = text();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomPadding: false,
-      backgroundColor: const Color(0xffE0E0E0),
+      backgroundColor: const Color(0xFF2C2C32),
       body: SafeArea(
-        child: Container(
-            child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Container(
-              child: Stack(
-                children: [
-                  Container(
-                    margin: EdgeInsets.only(top: 25, bottom: 45, left: 15),
-                    child: Text(
-                      "Mercedes Benz",
-                      style: TextStyle(color: Colors.black, fontSize: 20),
-                    ),
-                  ),
-                  Container(
-                    margin: EdgeInsets.only(top: 45, bottom: 25, left: 15),
-                    child: Text(
-                      "C200d",
-                      style: TextStyle(color: Colors.black, fontSize: 15),
-                    ),
-                  ),
-                  Align(
-                    alignment: Alignment.bottomRight,
-                    child: Container(
-                      margin: EdgeInsets.only(top: 38, right: 15),
+        child: Align(
+          alignment: Alignment.center,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                child: Stack(
+                  children: [
+                    Container(
+                      margin: EdgeInsets.only(top: 15, left: 15),
                       child: Text(
-                        "(00 AA 000)",
-                        style: TextStyle(color: Colors.blueGrey),
+                        "Mercedes Benz",
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 20,
+                            fontFamily: "GrotesklyYours",
+                            fontWeight: FontWeight.bold),
                       ),
                     ),
-                  ),
-                ],
-              ),
-            ),
-            Container(
-              margin: EdgeInsets.only(left: 15, right: 15),
-              decoration: BoxDecoration(
-                color: Colors.orange,
-                borderRadius: BorderRadius.circular(70),
-              ),
-              height: 3,
-            ),
-            Expanded(child: Container()),
-            Align(
-              alignment: Alignment.center,
-              child: Stack(
-                children: [
-                  Container(
-                    child: Image(image: AssetImage("assets/images/shadow.png")),
-                  ),
-                  Container(
-                    child: Stack(
-                      children: [
-                        Center(
-                          child: Container(
-                            margin: EdgeInsets.only(top: 35, left: 0),
-                            child: Text(
-                              "100 Kilometrede",
-                              style: TextStyle(
-                                  fontFamily: "EslGothicUnicode", fontSize: 17),
-                            ),
-                          ),
-                        ),
-                        Center(
-                          child: Container(
-                            margin: EdgeInsets.only(top: 55, right: 40),
-                            child: Text(
-                              "6.7",
-                              style: TextStyle(
-                                  fontFamily: "EslGothicUnicode", fontSize: 25),
-                            ),
-                          ),
-                        ),
-                        Center(
-                          child: Container(
-                            margin: EdgeInsets.only(top: 63, left: 50),
-                            child: Text(
-                              "litre",
-                              style: TextStyle(
-                                  fontFamily: "EslGothicUnicode", fontSize: 17),
-                            ),
-                          ),
-                        ),
-                        Center(
-                          child: Container(
-                            margin:
-                                EdgeInsets.only(top: 90, left: 80, right: 80),
-                            height: 2,
-                            color: Colors.black,
-                          ),
-                        ),
-                        Center(
-                          child: Container(
-                            margin: EdgeInsets.only(top: 115, right: 130),
-                            child: Text(
-                              "Kilometreye",
-                              style: TextStyle(
-                                  fontFamily: "EslGothicUnicode", fontSize: 17),
-                            ),
-                          ),
-                        ),
-                        Center(
-                          child: Container(
-                            margin: EdgeInsets.only(top: 110, left: 25),
-                            child: Text(
-                              "0.30",
-                              style: TextStyle(
-                                  fontFamily: "EslGothicUnicode", fontSize: 25),
-                            ),
-                          ),
-                        ),
-                        Center(
-                          child: Container(
-                            margin: EdgeInsets.only(top: 115, left: 135),
-                            child: Text(
-                              "kuruş",
-                              style: TextStyle(
-                                  fontFamily: "EslGothicUnicode", fontSize: 17),
-                            ),
-                          ),
-                        ),
-                        Center(
-                          child: Container(
-                              margin: EdgeInsets.only(
-                                  top: 160, left: 60, right: 60),
-                              height: 3,
-                              color: Colors.black),
-                        ),
-                        Center(
-                          child: Container(
-                            margin: EdgeInsets.only(top: 190, right: 150),
-                            child: Text(
-                              "Son Alınan Yakıt",
-                              style: TextStyle(
-                                  fontFamily: "EslGothicUnicode", fontSize: 17),
-                            ),
-                          ),
-                        ),
-                        Center(
-                          child: Container(
-                            margin: EdgeInsets.only(top: 185, left: 60),
-                            child: Text(
-                              "120.50",
-                              style: TextStyle(
-                                  fontFamily: "EslGothicUnicode", fontSize: 25),
-                            ),
-                          ),
-                        ),
-                        Center(
-                          child: Container(
-                            margin: EdgeInsets.only(top: 190, left: 180),
-                            child: Text(
-                              "lira",
-                              style: TextStyle(
-                                  fontFamily: "EslGothicUnicode", fontSize: 17),
-                            ),
-                          ),
-                        ),
-                        Center(
-                          child: Container(
-                            margin:
-                                EdgeInsets.only(top: 240, left: 80, right: 80),
-                            height: 2,
-                            color: Colors.black,
-                          ),
-                        ),
-                        Center(
-                          child: Container(
-                            margin: EdgeInsets.only(top: 250),
-                            child: Text(
-                              "Kilometresi",
-                              style: TextStyle(
-                                  fontFamily: "EslGothicUnicode", fontSize: 17),
-                            ),
-                          ),
-                        ),
-                        Center(
-                          child: Container(
-                            margin: EdgeInsets.only(top: 270),
-                            child: Text(
-                              "123000",
-                              style: TextStyle(
-                                  fontFamily: "EslGothicUnicode", fontSize: 25),
-                            ),
-                          ),
-                        ),
-                        Center(
-                          child: Container(
-                            margin: EdgeInsets.only(top: 300),
-                            child: Text(
-                              "kilometre",
-                              style: TextStyle(
-                                  fontFamily: "EslGothicUnicode", fontSize: 17),
-                            ),
-                          ),
-                        ),
-                      ],
+                    Container(
+                      margin: EdgeInsets.only(top: 35, left: 15),
+                      child: Text(
+                        "C200d",
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 15,
+                            fontFamily: "GrotesklyYours",
+                            fontWeight: FontWeight.bold),
+                      ),
                     ),
-                  ),
-                ],
+                    Align(
+                      alignment: Alignment.bottomRight,
+                      child: Container(
+                        margin: EdgeInsets.only(top: 35, right: 15),
+                        child: Text(
+                          "(00 AA 000)",
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontFamily: "GrotesklyYours",
+                              fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ),
-            ),
-            Expanded(child: Container()),
-            Container(
-              margin: EdgeInsets.only(left: 10, right: 10),
-              height: 50,
-              child: Row(
-                children: [
-                  Expanded(
-                    child: Align(
-                      alignment: Alignment.center,
-                      child: GestureDetector(
-                        child: Stack(
-                          children: [
-                            Container(
-                              decoration: BoxDecoration(),
-                              child: Center(
-                                  child: Container(
-                                margin: EdgeInsets.only(left: 10),
-                                child: Text(
-                                  "Yakıt Aldım",
-                                  style:
-                                      TextStyle(fontFamily: "EslGothicUnicode"),
+              Container(
+                margin: EdgeInsets.only(left: 15, right: 15),
+                decoration: BoxDecoration(
+                  color: Colors.orange,
+                  borderRadius: BorderRadius.circular(70),
+                ),
+                height: 3,
+              ),
+              Expanded(
+                child: Align(
+                  alignment: Alignment.center,
+                  child: AspectRatio(
+                    aspectRatio: 3 / 3,
+                    child: GestureDetector(
+                      onTapDown: (details) {
+                        setState(() {
+                          this.buton = button2();
+                        });
+                      },
+                      onTapUp: (details) {
+                        setState(() {
+                          this.yazi = text();
+                          this.buton = button1();
+                        });
+                      },
+                      child: Container(
+                        margin: EdgeInsets.only(right: 15, left: 15, top: 15),
+                        child: Center(
+                          child: Container(
+                            child: Stack(
+                              children: [
+                                Container(
+                                  child: Center(
+                                    child: this.yazi,
+                                  ),
                                 ),
-                              )),
+                              ],
                             ),
-                            Align(
-                              alignment: Alignment.centerLeft,
-                              child: Container(
-                                margin: EdgeInsets.only(left: 10),
-                                width: 30,
-                                child: Image(
-                                    image: AssetImage("assets/images/gas.png")),
-                              ),
-                            )
-                          ],
+                          ),
                         ),
+                        decoration: buton,
                       ),
                     ),
                   ),
-                  Expanded(
-                    child: Align(
-                      alignment: Alignment.center,
-                      child: GestureDetector(
-                        child: Stack(
-                          children: [
-                            Container(
-                              decoration: BoxDecoration(),
-                              child: Center(
-                                  child: Container(
-                                margin: EdgeInsets.only(left: 15),
-                                child: Text(
-                                  "Araç Özellikleri",
-                                  style:
-                                      TextStyle(fontFamily: "EslGothicUnicode"),
-                                ),
-                              )),
-                            ),
-                            Align(
-                              alignment: Alignment.centerLeft,
-                              child: Container(
-                                width: 30,
-                                child: Image(
-                                    image: AssetImage(
-                                        "assets/images/enginePiston.png")),
+                ),
+              ),
+              Container(
+                margin: EdgeInsets.only(left: 10, right: 10),
+                height: 50,
+                child: Row(
+                  children: [
+                    Align(
+                      alignment: Alignment.centerLeft,
+                      child: Container(
+                        margin: EdgeInsets.only(left: 10),
+                        width: 23,
+                        child:
+                            Image(image: AssetImage("assets/images/gas.png")),
+                      ),
+                    ),
+                    Expanded(
+                      child: Align(
+                        alignment: Alignment.center,
+                        child: GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => YakitAldim(),
                               ),
-                            )
-                          ],
+                            );
+                          },
+                          child: Container(
+                            decoration: BoxDecoration(),
+                            child: Center(
+                                child: Container(
+                              child: Text(
+                                "Yakıt Aldım",
+                                style: TextStyle(
+                                    fontFamily: "GrotesklyYours",
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.white),
+                              ),
+                            )),
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                ],
-              ),
-            ),
-            GestureDetector(
-              child: Stack(
-                children: [
-                  Container(
-                    margin: EdgeInsets.only(left: 10, right: 10, bottom: 10),
-                    height: 50,
-                    decoration: BoxDecoration(
-                        color: Colors.green,
-                        borderRadius: BorderRadius.circular(40)),
-                    child: Align(
-                      alignment: Alignment.center,
-                      child: Center(
-                          child: Text(
-                        "Araçlarım",
-                        style: TextStyle(fontFamily: "EslGothicUnicode"),
-                      )),
+                    Container(
+                      width: 3,
+                      color: Colors.green,
+                      margin: EdgeInsets.only(bottom: 5, top: 5),
                     ),
-                  ),
-                ],
+                    Expanded(
+                      child: Align(
+                        alignment: Alignment.center,
+                        child: GestureDetector(
+                          child: Container(
+                            decoration: BoxDecoration(),
+                            child: Center(
+                                child: Container(
+                              child: Text(
+                                "Araç Özellikleri",
+                                style: TextStyle(
+                                    fontFamily: "GrotesklyYours",
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.white),
+                              ),
+                            )),
+                          ),
+                        ),
+                      ),
+                    ),
+                    Align(
+                      alignment: Alignment.centerRight,
+                      child: Container(
+                        margin: EdgeInsets.only(right: 10),
+                        width: 30,
+                        child: Image(
+                            image:
+                                AssetImage("assets/images/enginePiston.png")),
+                      ),
+                    )
+                  ],
+                ),
               ),
-            )
-          ],
-        )),
+              GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => Araclar(),
+                    ),
+                  );
+                },
+                child: Stack(
+                  children: [
+                    Container(
+                      margin: EdgeInsets.only(left: 10, right: 10, bottom: 10),
+                      height: 50,
+                      decoration: BoxDecoration(
+                          color: Colors.green,
+                          borderRadius: BorderRadius.circular(40)),
+                      child: Align(
+                        alignment: Alignment.center,
+                        child: Center(
+                            child: Text(
+                          "Araçlarım",
+                          style: TextStyle(
+                              fontFamily: "GrotesklyYours",
+                              fontWeight: FontWeight.bold),
+                        )),
+                      ),
+                    ),
+                  ],
+                ),
+              )
+            ],
+          ),
+        ),
       ),
     );
     throw UnimplementedError();
+  }
+}
+
+button1() {
+  return BoxDecoration(
+      color: Colors.grey[350],
+      shape: BoxShape.circle,
+      boxShadow: [
+        BoxShadow(color: Colors.white, blurRadius: 20.0, spreadRadius: 1.0)
+      ]);
+}
+
+button2() {
+  return BoxDecoration(
+      color: Colors.grey[350],
+      shape: BoxShape.circle,
+      boxShadow: [
+        BoxShadow(color: Colors.grey[600], blurRadius: 26.0, spreadRadius: 5.0),
+      ]);
+}
+
+int yaziSayac = 0;
+
+text() {
+  yaziSayac++;
+  if (yaziSayac == 1) {
+    return Container(
+      margin: EdgeInsets.only(left: 10, right: 10),
+      child: AutoSizeText(
+        "6.5 litre/100km",
+        style: TextStyle(fontFamily: "GrotesklyYours", fontSize: 40),
+        maxLines: 1,
+      ),
+    );
+  } else if (yaziSayac == 2) {
+    return Container(
+      margin: EdgeInsets.only(left: 10, right: 10),
+      child: AutoSizeText(
+        "30 kuruş/km",
+        style: TextStyle(fontFamily: "GrotesklyYours", fontSize: 40),
+        maxLines: 1,
+      ),
+    );
+  } else if (yaziSayac == 3) {
+    return Container(
+      margin: EdgeInsets.only(left: 10, right: 10),
+      child: AutoSizeText(
+        "Son yakıt 130.50 TL",
+        style: TextStyle(fontFamily: "GrotesklyYours", fontSize: 40),
+        maxLines: 2,
+      ),
+    );
+  } else if (yaziSayac == 4) {
+    yaziSayac = 0;
+    return Container(
+      margin: EdgeInsets.only(left: 10, right: 10),
+      child: AutoSizeText(
+        "123.300 Kilometre",
+        style: TextStyle(fontFamily: "GrotesklyYours", fontSize: 40),
+        maxLines: 1,
+      ),
+    );
   }
 }

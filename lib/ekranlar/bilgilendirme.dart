@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:yakitim/ekranlar/aracEkle.dart';
@@ -6,7 +7,7 @@ class Bilgilendirme extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: const Color(0xFF2C2C32),
       body: SafeArea(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -15,51 +16,60 @@ class Bilgilendirme extends StatelessWidget {
               child: Stack(
                 children: [
                   Container(
-                    margin: EdgeInsets.only(top: 25, left: 25),
+                    margin: EdgeInsets.only(top: 15, left: 25),
                     child: Text(
                       "Merhaba",
-                      style: TextStyle(fontSize: 55),
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 55,
+                        fontFamily: "GrotesklyYours",
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
                   Container(
-                    margin: EdgeInsets.only(top: 15, left: 245),
+                    margin: EdgeInsets.only(top: 3, left: 265),
                     child: Text(
                       ".",
-                      style: TextStyle(fontSize: 65, color: Colors.green),
+                      style: TextStyle(
+                        fontSize: 65,
+                        color: Colors.green,
+                        fontFamily: "GrotesklyYours",
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   )
                 ],
               ),
             ),
-            Expanded(child: Container()),
-            Container(
-              decoration: BoxDecoration(
-                  color: Colors.white30,
-                  borderRadius: BorderRadius.circular(15.0)),
-              margin: EdgeInsets.only(left: 40.0, right: 40.0, bottom: 20.0),
-              child: Center(
-                child: Text(
-                  "Yakıtım uygulamasını hoşgeldin. Yakıtım olarak aracının detaylı bilgilerinin tutmak ve istediğin zaman göstermek için programlandım. Benimle vakit geçirmen için sabırsızlanıyorum. Aracını tanıtarak uygulamayı kullanmaya başlayabilirsin...",
-                  style: TextStyle(fontFamily: "EslGothicUnicode"),
+            Expanded(
+              child: Container(
+                margin: EdgeInsets.only(left: 40.0, right: 40.0, bottom: 20.0),
+                child: Center(
+                  child: AutoSizeText(
+                    "Yakıtım uygulamasına hoşgeldin. Yakıtım olarak aracının detaylı bilgilerini tutmak ve istediğin zaman göstermek için programlandım. Benimle vakit geçirmen için sabırsızlanıyorum. Aracını tanıtarak uygulamayı kullanmaya başlayabilirsin...",
+                    style: TextStyle(
+                        fontSize: 20,
+                        color: Colors.white,
+                        fontFamily: "GrotesklyYours",
+                        fontWeight: FontWeight.bold),
+                  ),
                 ),
               ),
             ),
             Container(
-              decoration: BoxDecoration(
-                  color: Colors.white30,
-                  borderRadius: BorderRadius.circular(15.0)),
-              margin: EdgeInsets.only(left: 40.0, right: 40.0),
+              margin: EdgeInsets.only(left: 40.0, right: 40.0, bottom: 20),
               child: Center(
-                child: Text(
+                child: AutoSizeText(
                   "Not: Araç kayıt ederken, aracınızın deposu dolu olmalıdır. Aksi halde bazı değerlerde yanlışlık olabilir.",
                   style: TextStyle(
-                      fontFamily: "EslGothicUnicode",
+                      fontFamily: "GrotesklyYours",
+                      fontWeight: FontWeight.bold,
                       color: Colors.green,
                       fontSize: 12),
                 ),
               ),
             ),
-            Expanded(child: Container()),
             GestureDetector(
               onTap: () {
                 Navigator.push(
@@ -69,35 +79,27 @@ class Bilgilendirme extends StatelessWidget {
                   ),
                 );
               },
-              child: Expanded(
+              child: Container(
+                decoration: BoxDecoration(
+                  color: Colors.orange,
+                  borderRadius: BorderRadius.circular(25),
+                ),
+                height: 40,
+                margin: EdgeInsets.only(left: 60, right: 60, bottom: 10),
                 child: Container(
-                  decoration: BoxDecoration(
-                    color: Colors.orange,
-                    borderRadius: BorderRadius.circular(25),
-                    border: Border.all(
-                      color: Colors.white,
-                      width: 2,
-                    ),
-                  ),
-                  height: 40,
-                  margin: EdgeInsets.only(left: 60, right: 60, bottom: 10),
-                  child: Container(
-                    child: Stack(
-                      children: [
-                        Expanded(
-                          child: Align(
-                            alignment: Alignment.center,
-                            child: Container(
-                                margin: EdgeInsets.only(),
-                                child: Image(
-                                  image: AssetImage(
-                                    "assets/images/ok.png",
-                                  ),
-                                )),
-                          ),
-                        ),
-                      ],
-                    ),
+                  child: Stack(
+                    children: [
+                      Align(
+                        alignment: Alignment.center,
+                        child: Container(
+                            margin: EdgeInsets.only(),
+                            child: Image(
+                              image: AssetImage(
+                                "assets/images/ok.png",
+                              ),
+                            )),
+                      ),
+                    ],
                   ),
                 ),
               ),
