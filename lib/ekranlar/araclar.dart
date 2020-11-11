@@ -12,6 +12,8 @@ class Araclar extends StatefulWidget {
 }
 
 class _Araclar extends State {
+  List<Arac> _araclar = [];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

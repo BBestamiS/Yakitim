@@ -11,6 +11,17 @@ class AracEkle extends StatefulWidget {
 }
 
 class _AracEkle extends State {
+  List<Arac> _araclar = [];
+  bool _validate = false;
+  final _marka = TextEditingController();
+  final _model = TextEditingController();
+  final _plaka = TextEditingController();
+  final _yakitTipi = TextEditingController();
+  final _depoHacmi = TextEditingController();
+  final _motorHacmi = TextEditingController();
+  final _kilometresi = TextEditingController();
+  Arac _arac = Arac();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -343,6 +354,21 @@ class _AracEkle extends State {
               ),
               GestureDetector(
                 onTap: () {
+                  setState(() {
+                    if (_marka.text.isEmpty) {
+                      _validate = true;
+                    } else {
+                      _validate = false;
+                    }
+                  });
+                  _arac.model = _model.text;
+                  _arac.marka = _marka.text;
+                  _arac.depoHacmi = int.parse(_depoHacmi.text);
+                  _arac.kilometresi = int.parse(_kilometresi.text);
+                  _arac.motorHacmi = double.parse(_motorHacmi.text);
+                  _arac.plaka = _plaka.text;
+                  _arac.yakitTipi = _yakitTipi.text;
+                  _onSubmit();
                   Navigator.push(
                     context,
                     MaterialPageRoute(
@@ -374,4 +400,6 @@ class _AracEkle extends State {
     );
     throw UnimplementedError();
   }
+
+  _onSubmit() async {}
 }

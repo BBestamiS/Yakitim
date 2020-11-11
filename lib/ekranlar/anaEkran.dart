@@ -1,5 +1,6 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:yakitim/ekranlar/aracOzellikleriEkrani/aracOzellikleriControl.dart';
 import 'package:yakitim/ekranlar/araclar.dart';
 import 'package:yakitim/ekranlar/yakitAldim.dart';
 
@@ -161,6 +162,14 @@ class _AnaEkran extends State {
                       child: Align(
                         alignment: Alignment.center,
                         child: GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => AracOzellikleriControl(),
+                              ),
+                            );
+                          },
                           child: Container(
                             decoration: BoxDecoration(),
                             child: Center(
