@@ -1,7 +1,5 @@
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
-import 'package:yakitim/ekranlar/aracOzellikleriEkrani/aracOzellikleriControl.dart';
+import 'package:yatitimveritabani2/ekranlar/aracOzellikleriEkrani/aracOzellikleriControl.dart';
 
 class MaliyetEkrani4 extends StatelessWidget {
   double birinci = 130.5;
@@ -296,7 +294,7 @@ class MaliyetEkrani4 extends StatelessWidget {
                             borderRadius: BorderRadius.circular(20),
                             boxShadow: [
                               BoxShadow(
-                                  color: const Color(0xFFe85d04),
+                                  color: const Color(0xFF2C2C32),
                                   blurRadius: 5.0,
                                   spreadRadius: 5.0)
                             ],
@@ -375,7 +373,7 @@ class MaliyetEkrani5 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: const Color(0xFFe85d04),
+        backgroundColor: const Color(0xFF2C2C32),
         body: SafeArea(
           child: Stack(
             children: [

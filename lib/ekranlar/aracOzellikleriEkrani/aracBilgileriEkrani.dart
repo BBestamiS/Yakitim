@@ -1,6 +1,6 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
-import 'package:yakitim/ekranlar/anaEkran.dart';
+import 'package:yatitimveritabani2/ekranlar/anaEkran.dart';
 
 class AracOzellikleriEkrani2 extends StatelessWidget {
   @override
@@ -30,7 +30,7 @@ class AracOzellikleriEkrani2 extends StatelessWidget {
                         borderRadius: BorderRadius.circular(40),
                         boxShadow: [
                           BoxShadow(
-                              color: const Color(0xFFe85d04),
+                              color: const Color(0xFFFFFC400),
                               blurRadius: 7.0,
                               spreadRadius: 7.0)
                         ],

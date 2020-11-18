@@ -1,9 +1,9 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:yakitim/ekranlar/aracOzellikleriEkrani/aracBilgileriEkrani.dart';
-import 'package:yakitim/ekranlar/aracOzellikleriEkrani/maliyetEkrani.dart';
-import 'package:yakitim/ekranlar/aracOzellikleriEkrani/yak%C4%B1tBilgileriEkrani.dart';
+import 'package:yatitimveritabani2/ekranlar/aracOzellikleriEkrani/aracBilgileriEkrani.dart';
+import 'package:yatitimveritabani2/ekranlar/aracOzellikleriEkrani/maliyetEkrani.dart';
+import 'package:yatitimveritabani2/ekranlar/aracOzellikleriEkrani/yak%C4%B1tBilgileriEkrani.dart';
 
 class AracOzellikleriControl extends StatelessWidget {
   final controller = PageController(

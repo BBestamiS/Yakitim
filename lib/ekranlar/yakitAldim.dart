@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:yakitim/ekranlar/anaEkran.dart';
+import 'package:yatitimveritabani2/ekranlar/anaEkran.dart';
 
 class YakitAldim extends StatelessWidget {
   @override

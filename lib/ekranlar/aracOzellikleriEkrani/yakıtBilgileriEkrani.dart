@@ -1,7 +1,7 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
-import 'package:yakitim/ekranlar/aracOzellikleriEkrani/aracBilgileriEkrani.dart';
-import 'package:yakitim/ekranlar/aracOzellikleriEkrani/aracOzellikleriControl.dart';
+import 'package:yatitimveritabani2/ekranlar/aracOzellikleriEkrani/aracBilgileriEkrani.dart';
+import 'package:yatitimveritabani2/ekranlar/aracOzellikleriEkrani/aracOzellikleriControl.dart';
 
 class YakitEkrani2 extends StatelessWidget {
   double depoDolulukLitre = 34;
@@ -11,7 +11,7 @@ class YakitEkrani2 extends StatelessWidget {
   Widget build(BuildContext context) {
     depoDoluluk();
     return Scaffold(
-      backgroundColor: const Color(0xFFe85d04), //0xFF9ad3bc
+      backgroundColor: const Color(0xFFFFFC400), //0xFF9ad3bc
       body: SafeArea(
         child: Stack(
           children: [
@@ -35,7 +35,7 @@ class YakitEkrani2 extends StatelessWidget {
                         borderRadius: BorderRadius.circular(20),
                         boxShadow: [
                           BoxShadow(
-                              color: const Color(0xFF9B48A6),
+                              color: const Color(0xFF2C2C32),
                               blurRadius: 7.0,
                               spreadRadius: 7.0)
                         ],
@@ -163,7 +163,7 @@ class YakitEkrani3 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: const Color(0xFF9B48A6),
+        backgroundColor: const Color(0xFF2C2C32),
         body: SafeArea(
           child: Stack(
             children: [

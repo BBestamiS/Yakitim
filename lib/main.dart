@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:yakitim/ekranlar/anaEkran.dart';
-import 'package:yakitim/ekranlar/aracEkle.dart';
-import 'package:yakitim/ekranlar/aracOzellikleriEkrani/aracBilgileriEkrani.dart';
-import 'package:yakitim/ekranlar/aracOzellikleriEkrani/aracOzellikleriControl.dart';
-import 'package:yakitim/ekranlar/araclar.dart';
-import 'package:yakitim/ekranlar/bilgilendirme.dart';
-import 'package:yakitim/ekranlar/yakitAldim.dart';
-import 'package:yakitim/modeller/arac.dart';
+import 'package:yatitimveritabani2/database/database.dart';
+import 'package:yatitimveritabani2/ekranlar/anaEkran.dart';
+import 'package:yatitimveritabani2/ekranlar/aracEkle.dart';
+import 'package:yatitimveritabani2/ekranlar/aracOzellikleriEkrani/aracBilgileriEkrani.dart';
+import 'package:yatitimveritabani2/ekranlar/aracOzellikleriEkrani/aracOzellikleriControl.dart';
+import 'package:yatitimveritabani2/ekranlar/araclarimEkrani.dart';
+import 'package:yatitimveritabani2/ekranlar/bilgilendirme.dart';
+import 'package:yatitimveritabani2/ekranlar/gelistirici.dart';
+import 'package:yatitimveritabani2/ekranlar/yakitAldim.dart';
+import 'package:intl/intl.dart';
+import 'package:yatitimveritabani2/modeller/arac.dart';
 
 void main() {
   runApp(MyApp());
@@ -38,11 +41,12 @@ class EkranSecimi extends StatelessWidget {
   int ekransecim;
   @override
   Widget build(BuildContext context) {
+    print(DateFormat.M().format(DateTime.now()));
     this.ekransecim = 0;
     if (this.ekransecim == 1) {
-      return AracOzellikleriControl();
-    } else {
       return AnaEkran();
+    } else {
+      return Bilgilendirme();
     }
 
     throw UnimplementedError();
