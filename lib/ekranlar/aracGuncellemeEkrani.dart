@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:yakitim/database/database.dart';
@@ -8,12 +6,14 @@ import 'package:yakitim/ekranlar/araclarimEkrani.dart';
 import 'package:yakitim/modeller/arac.dart';
 import 'package:yakitim/modeller/secim.dart';
 
-class AracEkle extends StatefulWidget {
+class AracGuncelleme extends StatefulWidget {
+  Arac arac;
+  AracGuncelleme({this.arac});
   @override
-  _AracEkle createState() => _AracEkle();
+  _AracGuncelleme createState() => _AracGuncelleme();
 }
 
-class _AracEkle extends State {
+class _AracGuncelleme extends State<AracGuncelleme> {
   Secim secim = new Secim();
   DBHelper dbHelper;
   List<Arac> araclar = [];
@@ -31,6 +31,18 @@ class _AracEkle extends State {
   void initState() {
     super.initState();
     dbHelper = DBHelper();
+    setText();
+  }
+
+  setText() {
+    this.arac = widget.arac;
+    _marka.text = arac.marka;
+    _model.text = arac.model;
+    _plaka.text = arac.plaka;
+    _yakitTipi.text = arac.yakittipi;
+    _depoHacmi.text = arac.depohacmi.toString();
+    _motorHacmi.text = arac.motorhacmi.toString();
+    _kilometresi.text = arac.kilometre.toString();
   }
 
   @override
@@ -38,18 +50,9 @@ class _AracEkle extends State {
     return WillPopScope(
       onWillPop: () async => false,
       child: Scaffold(
-          backgroundColor: const Color(0xFF2C2C32),
-          body: FutureBuilder(
-            future: DBHelper().getAraclar(),
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.done) {
-                araclar = snapshot.data;
-                return aracEklee();
-              } else {
-                return Center(child: CircularProgressIndicator());
-              }
-            },
-          )),
+        backgroundColor: const Color(0xFF2C2C32),
+        body: aracEklee(),
+      ),
     );
     throw UnimplementedError();
   }
@@ -70,9 +73,9 @@ class _AracEkle extends State {
                         child: Container(
                           margin: EdgeInsets.only(top: 10, left: 40, right: 40),
                           child: AutoSizeText(
-                            "Aracınızın Verilerini Giriniz",
+                            "Araç Güncelleme",
                             style: TextStyle(
-                                fontSize: 25,
+                                fontSize: 20,
                                 color: Colors.white,
                                 fontFamily: "GrotesklyYours",
                                 fontWeight: FontWeight.bold),
@@ -404,52 +407,32 @@ class _AracEkle extends State {
             ),
             GestureDetector(
               onTap: () {
-                setState(() {
-                  if (this.araclar.isEmpty) {
-                    this.arac.marka = _marka.text;
-                    this.arac.model = _model.text;
-                    this.arac.plaka = _plaka.text;
-                    this.arac.kilometre = int.parse(_kilometresi.text);
-                    this.arac.yakittipi = _yakitTipi.text;
-                    this.arac.depohacmi = int.parse(_depoHacmi.text);
-                    this.arac.motorhacmi = double.parse(_motorHacmi.text);
-                    secim.secim = 1;
-                    dbHelper.aracEkle(this.arac);
-                    dbHelper.secimEkle(secim);
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => Araclar(),
-                      ),
-                    );
-                  } else {
-                    this.arac.marka = _marka.text;
-                    this.arac.model = _model.text;
-                    this.arac.plaka = _plaka.text;
-                    this.arac.kilometre = int.parse(_kilometresi.text);
-                    this.arac.yakittipi = _yakitTipi.text;
-                    this.arac.depohacmi = int.parse(_depoHacmi.text);
-                    this.arac.motorhacmi = double.parse(_motorHacmi.text);
-                    dbHelper.aracEkle(this.arac);
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => Araclar(),
-                      ),
-                    );
-                  }
-                });
+                this.arac.marka = _marka.text;
+                this.arac.model = _model.text;
+                this.arac.plaka = _plaka.text;
+                this.arac.kilometre = int.parse(_kilometresi.text);
+                this.arac.yakittipi = _yakitTipi.text;
+                this.arac.depohacmi = int.parse(_depoHacmi.text);
+                this.arac.motorhacmi = double.parse(_motorHacmi.text);
+                print("Arac idsi " + arac.id.toString());
+                dbHelper.aracUpdate(this.arac);
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => Araclar(),
+                  ),
+                );
               },
               child: Container(
                 decoration: BoxDecoration(
-                    color: Colors.orange,
+                    color: Colors.green,
                     borderRadius: BorderRadius.circular(25.0)),
                 margin: EdgeInsets.only(
                     left: 60.0, right: 60.0, bottom: 15.0, top: 40),
                 height: 40.0,
                 child: Center(
                   child: Text(
-                    "Aracı Ekle",
+                    "Aracı Güncelle",
                     style: TextStyle(
                       color: Colors.black,
                     ),

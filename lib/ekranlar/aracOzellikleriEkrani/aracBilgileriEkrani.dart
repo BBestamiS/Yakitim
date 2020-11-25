@@ -1,6 +1,6 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
-import 'package:yatitimveritabani2/ekranlar/anaEkran.dart';
+import 'package:yakitim/ekranlar/anaEkran.dart';
 
 class AracOzellikleriEkrani2 extends StatelessWidget {
   @override

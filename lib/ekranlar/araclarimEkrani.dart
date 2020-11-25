@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:yatitimveritabani2/database/database.dart';
-import 'package:yatitimveritabani2/ekranlar/anaEkran.dart';
-import 'package:yatitimveritabani2/ekranlar/aracEkle.dart';
-import 'package:yatitimveritabani2/main.dart';
-import 'package:yatitimveritabani2/modeller/arac.dart';
-import 'package:yatitimveritabani2/modeller/secim.dart';
+import 'package:yakitim/database/database.dart';
+import 'package:yakitim/ekranlar/anaEkran.dart';
+import 'package:yakitim/ekranlar/aracEkle.dart';
+import 'package:yakitim/ekranlar/aracGuncellemeEkrani.dart';
+import 'package:yakitim/modeller/arac.dart';
+import 'package:yakitim/modeller/secim.dart';
 
 class Araclar extends StatefulWidget {
   @override
@@ -13,25 +13,18 @@ class Araclar extends StatefulWidget {
 
 class _Araclar extends State<Araclar> {
   Secim secim = new Secim();
-  List<Arac> araclar = new List();
+  List<Arac> araclar = [];
   DBHelper dbHelper;
-
+  Future futureAraclar;
   @override
   void initState() {
     super.initState();
     dbHelper = DBHelper();
-    araclariYenile();
+    futureAraclar = futureAraclarr();
   }
 
-  araclariYenile() {
-    dbHelper.getSecim(0).then((value) {
-      this.secim = dbHelper.getSecimm();
-    });
-    dbHelper.getAraclar().then((value) {
-      setState(() {
-        araclar = dbHelper.getAraclarr();
-      });
-    });
+  futureAraclarr() async {
+    return await DBHelper().getAraclar();
   }
 
   @override
@@ -39,15 +32,37 @@ class _Araclar extends State<Araclar> {
     return WillPopScope(
       onWillPop: () async => false,
       child: Scaffold(
-        backgroundColor: const Color(0xFF2C2C32),
-        body: SafeArea(
-            child: Column(
-          children: [
-            _AppBar(),
-            _List(),
-          ],
-        )),
-      ),
+          backgroundColor: const Color(0xFF2C2C32),
+          body: SafeArea(
+              child: Column(
+            children: [
+              _AppBar(),
+              FutureBuilder(
+                future: futureAraclar,
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.done) {
+                    araclar = snapshot.data;
+                    return FutureBuilder(
+                      future: DBHelper().getSecim(),
+                      builder: (context, snapshot) {
+                        if (snapshot.connectionState == ConnectionState.done) {
+                          secim = snapshot.data;
+                          return _List();
+                        } else {
+                          return Expanded(
+                              child:
+                                  Center(child: CircularProgressIndicator()));
+                        }
+                      },
+                    );
+                  } else {
+                    return Expanded(
+                        child: Center(child: CircularProgressIndicator()));
+                  }
+                },
+              ),
+            ],
+          ))),
     );
   }
 
@@ -163,10 +178,10 @@ class _Araclar extends State<Araclar> {
                                           onTap: () {
                                             this.secim.secim =
                                                 araclar[index].id;
+                                            print("secim " +
+                                                secim.secim.toString());
                                             dbHelper.secimUpdate(this.secim);
-                                            setState(() {
-                                              araclariYenile();
-                                            });
+                                            setState(() {});
                                             Navigator.of(context).pop();
                                           },
                                           child: Container(
@@ -215,6 +230,26 @@ class _Araclar extends State<Araclar> {
                         ),
                       ),
                     ),
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => AracGuncelleme(
+                              arac: araclar[index],
+                            ),
+                          ),
+                        );
+                      },
+                      child: Container(
+                        margin: EdgeInsets.only(right: 10),
+                        width: 30,
+                        height: 30,
+                        decoration: BoxDecoration(
+                            image: DecorationImage(
+                                image: AssetImage("assets/images/update.png"))),
+                      ),
+                    ),
                     silmeEkrani(index),
                   ],
                 ),
@@ -253,12 +288,12 @@ class _Araclar extends State<Araclar> {
                         onTap: () {
                           dbHelper.sil(araclar[index].id);
                           setState(() {
-                            araclariYenile();
+                            futureAraclar = futureAraclarr();
                           });
                           Navigator.of(context).pop();
                         },
                         child: Container(
-                          margin: EdgeInsets.only(right: 10),
+                          margin: EdgeInsets.only(right: 5),
                           width: 30,
                           height: 30,
                           decoration: BoxDecoration(

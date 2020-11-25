@@ -1,7 +1,7 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:yatitimveritabani2/ekranlar/aracEkle.dart';
+import 'package:yakitim/ekranlar/aracEkle.dart';
 
 class Bilgilendirme extends StatelessWidget {
   @override

@@ -1,11 +1,12 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
-import 'package:yatitimveritabani2/database/database.dart';
-import 'package:yatitimveritabani2/ekranlar/aracOzellikleriEkrani/aracOzellikleriControl.dart';
-import 'package:yatitimveritabani2/ekranlar/araclarimEkrani.dart';
-import 'package:yatitimveritabani2/ekranlar/yakitAldim.dart';
-import 'package:yatitimveritabani2/modeller/arac.dart';
-import 'package:yatitimveritabani2/modeller/secim.dart';
+import 'package:yakitim/database/database.dart';
+import 'package:yakitim/ekranlar/aracOzellikleriEkrani/aracOzellikleriControl.dart';
+import 'package:yakitim/ekranlar/araclarimEkrani.dart';
+import 'package:yakitim/ekranlar/ilkYakitEkrani.dart';
+import 'package:yakitim/ekranlar/yakitAldim.dart';
+import 'package:yakitim/hesaplamalar/hesaplamalar.dart';
+import 'package:yakitim/modeller/arac.dart';
 
 class AnaEkran extends StatefulWidget {
   @override
@@ -28,7 +29,7 @@ class _AnaEkran extends State<AnaEkran> {
   }
 
   _aracGetir() async {
-    return await DBHelper().getAracll();
+    return await DBHelper().getArac();
   }
 
   @override
@@ -43,7 +44,11 @@ class _AnaEkran extends State<AnaEkran> {
                   if (snapshot.connectionState == ConnectionState.done) {
                     this.arac = snapshot.data;
                     yazi = textt.text(this.yaziSayac, arac);
+                    // if (arac.birinciyakitlitre == null) {
+                    // return IlkYakitEkrani();
+                    // } else {
                     return anaEkran();
+                    // }
                   } else {
                     return Center(child: CircularProgressIndicator());
                   }
@@ -88,7 +93,7 @@ class _AnaEkran extends State<AnaEkran> {
                   child: Container(
                     margin: EdgeInsets.only(top: 35, right: 15),
                     child: Text(
-                      "(00 AA 000)",
+                      "(" + arac.plaka + ")" ?? "",
                       style: TextStyle(
                           color: Colors.white,
                           fontFamily: "GrotesklyYours",
@@ -298,7 +303,11 @@ class Textt {
       return Container(
         margin: EdgeInsets.only(left: 10, right: 10),
         child: AutoSizeText(
-          "6.5 litre/100km",
+          Hesaplamalar()
+                  .yuzKilometreYakitLitre(
+                      Hesaplamalar().kilometre(12000, 12496), 27.82)
+                  .toStringAsFixed(1) +
+              " litre/100km",
           style: TextStyle(fontFamily: "GrotesklyYours", fontSize: 40),
           maxLines: 1,
         ),
@@ -307,7 +316,12 @@ class Textt {
       return Container(
         margin: EdgeInsets.only(left: 10, right: 10),
         child: AutoSizeText(
-          "30 kuruş/km",
+          Hesaplamalar()
+                  .kilometredeYakilanKurus(
+                      Hesaplamalar().alinanYakitFiyati(6.112, 27.82),
+                      Hesaplamalar().kilometre(12000, 12496))
+                  .toStringAsFixed(2) +
+              " kuruş/km",
           style: TextStyle(fontFamily: "GrotesklyYours", fontSize: 40),
           maxLines: 1,
         ),
@@ -316,7 +330,11 @@ class Textt {
       return Container(
         margin: EdgeInsets.only(left: 10, right: 10),
         child: AutoSizeText(
-          "Son yakıt 130.50 TL",
+          "Son yakıt " +
+              Hesaplamalar()
+                  .alinanYakitFiyati(6.112, 27.82)
+                  .toStringAsFixed(2) +
+              " TL",
           style: TextStyle(fontFamily: "GrotesklyYours", fontSize: 40),
           maxLines: 2,
         ),

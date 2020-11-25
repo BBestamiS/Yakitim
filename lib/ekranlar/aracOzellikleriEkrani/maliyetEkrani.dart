@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:yatitimveritabani2/ekranlar/aracOzellikleriEkrani/aracOzellikleriControl.dart';
+import 'package:yakitim/ekranlar/aracOzellikleriEkrani/aracOzellikleriControl.dart';
 
 class MaliyetEkrani4 extends StatelessWidget {
   double birinci = 130.5;

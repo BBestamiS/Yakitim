@@ -1,7 +1,6 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
-import 'package:yatitimveritabani2/ekranlar/aracOzellikleriEkrani/aracBilgileriEkrani.dart';
-import 'package:yatitimveritabani2/ekranlar/aracOzellikleriEkrani/aracOzellikleriControl.dart';
+import 'package:yakitim/ekranlar/aracOzellikleriEkrani/aracOzellikleriControl.dart';
 
 class YakitEkrani2 extends StatelessWidget {
   double depoDolulukLitre = 34;

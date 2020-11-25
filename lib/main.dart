@@ -1,15 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:yatitimveritabani2/database/database.dart';
-import 'package:yatitimveritabani2/ekranlar/anaEkran.dart';
-import 'package:yatitimveritabani2/ekranlar/aracEkle.dart';
-import 'package:yatitimveritabani2/ekranlar/aracOzellikleriEkrani/aracBilgileriEkrani.dart';
-import 'package:yatitimveritabani2/ekranlar/aracOzellikleriEkrani/aracOzellikleriControl.dart';
-import 'package:yatitimveritabani2/ekranlar/araclarimEkrani.dart';
-import 'package:yatitimveritabani2/ekranlar/bilgilendirme.dart';
-import 'package:yatitimveritabani2/ekranlar/gelistirici.dart';
-import 'package:yatitimveritabani2/ekranlar/yakitAldim.dart';
 import 'package:intl/intl.dart';
-import 'package:yatitimveritabani2/modeller/arac.dart';
+import 'package:yakitim/database/database.dart';
+import 'package:yakitim/ekranlar/anaEkran.dart';
+import 'package:yakitim/ekranlar/bilgilendirme.dart';
+import 'package:yakitim/hesaplamalar/hesaplamalar.dart';
 
 void main() {
   runApp(MyApp());
@@ -41,14 +35,24 @@ class EkranSecimi extends StatelessWidget {
   int ekransecim;
   @override
   Widget build(BuildContext context) {
+    return FutureBuilder(
+      future: DBHelper().ekranSecimi(),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.done) {
+          ekransecim = snapshot.data;
+          if (this.ekransecim == 1) {
+            return AnaEkran();
+          } else {
+            return Bilgilendirme();
+          }
+        } else {
+          return Center(
+            child: CircularProgressIndicator(),
+          );
+        }
+      },
+    );
     print(DateFormat.M().format(DateTime.now()));
-    this.ekransecim = 0;
-    if (this.ekransecim == 1) {
-      return AnaEkran();
-    } else {
-      return Bilgilendirme();
-    }
-
     throw UnimplementedError();
   }
 }
