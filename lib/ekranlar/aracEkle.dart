@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:yakitim/database/database.dart';
 import 'package:yakitim/ekranlar/anaEkran.dart';
 import 'package:yakitim/ekranlar/araclarimEkrani.dart';
+import 'package:yakitim/ekranlar/ilkYakitEkrani.dart';
 import 'package:yakitim/modeller/arac.dart';
 import 'package:yakitim/modeller/secim.dart';
 
@@ -419,7 +420,7 @@ class _AracEkle extends State {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => Araclar(),
+                        builder: (context) => IlkYakitEkrani(),
                       ),
                     );
                   } else {

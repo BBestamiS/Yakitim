@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:yakitim/database/database.dart';
 import 'package:yakitim/ekranlar/aracOzellikleriEkrani/aracOzellikleriControl.dart';
 import 'package:yakitim/ekranlar/araclarimEkrani.dart';
-import 'package:yakitim/ekranlar/ilkYakitEkrani.dart';
+import 'package:yakitim/ekranlar/gelistirici.dart';
 import 'package:yakitim/ekranlar/yakitAldim.dart';
 import 'package:yakitim/hesaplamalar/hesaplamalar.dart';
 import 'package:yakitim/modeller/arac.dart';
@@ -44,11 +44,7 @@ class _AnaEkran extends State<AnaEkran> {
                   if (snapshot.connectionState == ConnectionState.done) {
                     this.arac = snapshot.data;
                     yazi = textt.text(this.yaziSayac, arac);
-                    // if (arac.birinciyakitlitre == null) {
-                    // return IlkYakitEkrani();
-                    // } else {
                     return anaEkran();
-                    // }
                   } else {
                     return Center(child: CircularProgressIndicator());
                   }
@@ -69,7 +65,7 @@ class _AnaEkran extends State<AnaEkran> {
                 Container(
                   margin: EdgeInsets.only(top: 15, left: 15),
                   child: Text(
-                    arac.marka ?? "",
+                    arac.marka.toUpperCase() ?? "",
                     style: TextStyle(
                         color: Colors.white,
                         fontSize: 20,
@@ -80,7 +76,7 @@ class _AnaEkran extends State<AnaEkran> {
                 Container(
                   margin: EdgeInsets.only(top: 35, left: 15),
                   child: Text(
-                    arac.model ?? "",
+                    arac.model.toUpperCase() ?? "",
                     style: TextStyle(
                         color: Colors.white,
                         fontSize: 15,
@@ -90,14 +86,24 @@ class _AnaEkran extends State<AnaEkran> {
                 ),
                 Align(
                   alignment: Alignment.bottomRight,
-                  child: Container(
-                    margin: EdgeInsets.only(top: 35, right: 15),
-                    child: Text(
-                      "(" + arac.plaka + ")" ?? "",
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontFamily: "GrotesklyYours",
-                          fontWeight: FontWeight.bold),
+                  child: GestureDetector(
+                    onLongPress: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => Gelistirici(),
+                        ),
+                      );
+                    },
+                    child: Container(
+                      margin: EdgeInsets.only(top: 35, right: 15),
+                      child: Text(
+                        "(" + arac.plaka.toUpperCase() + ")" ?? "",
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontFamily: "GrotesklyYours",
+                            fontWeight: FontWeight.bold),
+                      ),
                     ),
                   ),
                 ),
@@ -305,7 +311,7 @@ class Textt {
         child: AutoSizeText(
           Hesaplamalar()
                   .yuzKilometreYakitLitre(
-                      Hesaplamalar().kilometre(12000, 12496), 27.82)
+                      arac.besincikilometre, arac.besinciyakitlitre)
                   .toStringAsFixed(1) +
               " litre/100km",
           style: TextStyle(fontFamily: "GrotesklyYours", fontSize: 40),
@@ -318,8 +324,9 @@ class Textt {
         child: AutoSizeText(
           Hesaplamalar()
                   .kilometredeYakilanKurus(
-                      Hesaplamalar().alinanYakitFiyati(6.112, 27.82),
-                      Hesaplamalar().kilometre(12000, 12496))
+                      Hesaplamalar().alinanYakitFiyati(
+                          arac.besinciyakitfiyat, arac.besinciyakitlitre),
+                      arac.besincikilometre)
                   .toStringAsFixed(2) +
               " kuruş/km",
           style: TextStyle(fontFamily: "GrotesklyYours", fontSize: 40),
@@ -332,7 +339,8 @@ class Textt {
         child: AutoSizeText(
           "Son yakıt " +
               Hesaplamalar()
-                  .alinanYakitFiyati(6.112, 27.82)
+                  .alinanYakitFiyati(
+                      arac.besinciyakitfiyat, arac.besinciyakitlitre)
                   .toStringAsFixed(2) +
               " TL",
           style: TextStyle(fontFamily: "GrotesklyYours", fontSize: 40),

@@ -9,23 +9,23 @@ class Arac {
   double motorhacmi;
   double birinciyakitfiyat;
   double birinciyakitlitre;
-  double birincikilometre;
+  int birincikilometre;
 
   double ikinciyakitfiyat;
   double ikinciyakitlitre;
-  double ikincikilometre;
+  int ikincikilometre;
 
   double ucuncuyakitfiyat;
   double ucuncuyakitlitre;
-  double ucuncukilometre;
+  int ucuncukilometre;
 
   double dorduncuyakitfiyat;
   double dorduncuyakitlitre;
-  double dorduncukilometre;
+  int dorduncukilometre;
 
   double besinciyakitfiyat;
   double besinciyakitlitre;
-  double besincikilometre;
+  int besincikilometre;
   double aylikyakit;
   int tarih;
 

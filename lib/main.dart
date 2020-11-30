@@ -3,7 +3,7 @@ import 'package:intl/intl.dart';
 import 'package:yakitim/database/database.dart';
 import 'package:yakitim/ekranlar/anaEkran.dart';
 import 'package:yakitim/ekranlar/bilgilendirme.dart';
-import 'package:yakitim/hesaplamalar/hesaplamalar.dart';
+import 'package:yakitim/ekranlar/ilkYakitEkrani.dart';
 
 void main() {
   runApp(MyApp());
@@ -41,6 +41,8 @@ class EkranSecimi extends StatelessWidget {
         if (snapshot.connectionState == ConnectionState.done) {
           ekransecim = snapshot.data;
           if (this.ekransecim == 1) {
+            return IlkYakitEkrani();
+          } else if (this.ekransecim == 2) {
             return AnaEkran();
           } else {
             return Bilgilendirme();

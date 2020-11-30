@@ -3,6 +3,7 @@ import 'package:yakitim/database/database.dart';
 import 'package:yakitim/ekranlar/anaEkran.dart';
 import 'package:yakitim/ekranlar/aracEkle.dart';
 import 'package:yakitim/ekranlar/aracGuncellemeEkrani.dart';
+import 'package:yakitim/ekranlar/ilkYakitEkrani.dart';
 import 'package:yakitim/modeller/arac.dart';
 import 'package:yakitim/modeller/secim.dart';
 
@@ -12,6 +13,8 @@ class Araclar extends StatefulWidget {
 }
 
 class _Araclar extends State<Araclar> {
+  int ssecim;
+  Arac arac;
   Secim secim = new Secim();
   List<Arac> araclar = [];
   DBHelper dbHelper;
@@ -32,9 +35,9 @@ class _Araclar extends State<Araclar> {
     return WillPopScope(
       onWillPop: () async => false,
       child: Scaffold(
-          backgroundColor: const Color(0xFF2C2C32),
-          body: SafeArea(
-              child: Column(
+        backgroundColor: const Color(0xFF2C2C32),
+        body: SafeArea(
+          child: Column(
             children: [
               _AppBar(),
               FutureBuilder(
@@ -62,7 +65,9 @@ class _Araclar extends State<Araclar> {
                 },
               ),
             ],
-          ))),
+          ),
+        ),
+      ),
     );
   }
 
@@ -89,12 +94,28 @@ class _Araclar extends State<Araclar> {
                 alignment: Alignment.centerLeft,
                 child: GestureDetector(
                   onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => AnaEkran(),
-                      ),
-                    );
+                    ssecim = 0;
+                    print(this.araclar[ssecim].marka);
+                    for (int i = 0; i <= araclar.length; i++) {
+                      if (araclar[i].id == secim.secim) {
+                        ssecim = i;
+                        i = araclar.length + 1;
+                      }
+                    }
+
+                    if (this.araclar[ssecim].besinciyakitlitre == null) {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => IlkYakitEkrani(),
+                          ));
+                    } else {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => AnaEkran(),
+                          ));
+                    }
                   },
                   child: Container(
                     margin: EdgeInsets.only(top: 15, left: 10),
@@ -176,6 +197,7 @@ class _Araclar extends State<Araclar> {
                                     children: [
                                       GestureDetector(
                                           onTap: () {
+                                            this.arac = araclar[index];
                                             this.secim.secim =
                                                 araclar[index].id;
                                             print("secim " +
@@ -225,7 +247,7 @@ class _Araclar extends State<Araclar> {
                               fontSize: 18),
                         ),
                         subtitle: Text(
-                          "(" + araclar[index].id.toString() + ")" ?? "",
+                          "(" + araclar[index].plaka.toUpperCase() + ")" ?? "",
                           style: TextStyle(),
                         ),
                       ),

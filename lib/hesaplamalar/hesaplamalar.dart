@@ -12,8 +12,4 @@ class Hesaplamalar {
   double kilometredeYakilanKurus(double yakitFiyat, int kilometre) {
     return (yakitFiyat / kilometre);
   }
-
-  int kilometre(int eskiKilometre, int yeniKilometre) {
-    return (yeniKilometre - eskiKilometre);
-  }
 }

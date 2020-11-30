@@ -24,18 +24,30 @@ class DBHelper {
 
   _onCreate(Database db, int version) async {
     await db.execute(
-        "CREATE TABLE arac ( id INTEGER PRIMARY KEY AUTOINCREMENT, marka TEXT, model TEXT, plaka TEXT, kilometre INTEGER, yakittipi TEXT, depohacmi INTEGER, motorhacmi REAL, birinciyakitfiyat REAL, birinciyakitlitre REAL, birincikilometre REAL,ikinciyakitfiyat REAL, ikinciyakitlitre REAL, ikincikilometre REAL,ucuncuyakitfiyat REAL, ucuncuyakitlitre REAL, ucuncukilometre REAL,dorduncuyakitfiyat REAL, dorduncuyakitlitre REAL, dorduncukilometre REAL,besinciyakitfiyat REAL,besinciyakitlitre REAL, besincikilometre REAL, aylikyakit REAL, tarih INTEGER )");
+        "CREATE TABLE arac ( id INTEGER PRIMARY KEY AUTOINCREMENT, marka TEXT, model TEXT, plaka TEXT, kilometre INTEGER, yakittipi TEXT, depohacmi INTEGER, motorhacmi REAL, birinciyakitfiyat REAL, birinciyakitlitre REAL, birincikilometre INTEGER,ikinciyakitfiyat REAL, ikinciyakitlitre REAL, ikincikilometre INTEGER,ucuncuyakitfiyat REAL, ucuncuyakitlitre REAL, ucuncukilometre INTEGER,dorduncuyakitfiyat REAL, dorduncuyakitlitre REAL, dorduncukilometre INTEGER,besinciyakitfiyat REAL,besinciyakitlitre REAL, besincikilometre INTEGER, aylikyakit REAL, tarih INTEGER )");
     await db.execute(
         "CREATE TABLE secim (id INTEGER PRIMARY KEY AUTOINCREMENT, secim INTEGER )");
   }
 
   Future<int> ekranSecimi() async {
     var dbClient = await db;
+    double yakit;
+    int secim;
     List<Map> ekranSecim = await dbClient.rawQuery("SELECT * FROM arac");
+
     if (ekranSecim.isEmpty) {
       return 0;
     } else {
-      return 1;
+      List<Map> secimList = await dbClient.rawQuery("SELECT * FROM secim");
+      secim = Secim.fromMap(secimList[0]).secim;
+      List<Map> aracList =
+          await dbClient.rawQuery("SELECT * FROM arac WHERE id = ?", [secim]);
+      yakit = Arac.fromMap(aracList[0]).besinciyakitlitre;
+      if (yakit == null) {
+        return 1;
+      } else {
+        return 2;
+      }
     }
   }
 
