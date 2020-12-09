@@ -54,7 +54,7 @@ class EkranSecimi extends StatelessWidget {
         }
       },
     );
-    print(DateFormat.M().format(DateTime.now()));
+    // print(DateFormat.M().format(DateTime.now()));
     throw UnimplementedError();
   }
 }

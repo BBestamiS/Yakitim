@@ -5,6 +5,9 @@ import 'package:yakitim/ekranlar/ilkYakitEkrani.dart';
 import 'package:yakitim/modeller/arac.dart';
 
 class YakitAldim extends StatefulWidget {
+  int secim;
+  Arac arac;
+  YakitAldim({this.secim, this.arac});
   @override
   _YakitAldimState createState() => _YakitAldimState();
 }
@@ -27,6 +30,7 @@ class _YakitAldimState extends State<YakitAldim> {
 
   @override
   Widget build(BuildContext context) {
+    print(widget.arac.toplamlitre);
     return Scaffold(
       backgroundColor: const Color(0xFF2C2C32),
       body: SafeArea(
@@ -35,7 +39,11 @@ class _YakitAldimState extends State<YakitAldim> {
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.done) {
               this.arac = snapshot.data;
-              return yakit();
+              if (widget.secim == 1) {
+                return yakit();
+              } else {
+                return yakit1();
+              }
             } else {
               return Center(child: CircularProgressIndicator());
             }
@@ -46,7 +54,211 @@ class _YakitAldimState extends State<YakitAldim> {
     throw UnimplementedError();
   }
 
+  yakit1() {
+    return SingleChildScrollView(
+      child: Column(
+        children: [
+          Container(
+            child: Align(
+              alignment: Alignment.center,
+              child: Container(
+                child: Stack(
+                  children: [
+                    Align(
+                      alignment: Alignment.center,
+                      child: Text(
+                        "Yakıt Aldım",
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontFamily: "GrotesklyYours",
+                          fontSize: 15,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                    geriButonu(),
+                  ],
+                ),
+              ),
+            ),
+          ),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Container(
+                padding: EdgeInsets.only(top: 20.0, left: 20.0, right: 20.0),
+                child: Column(
+                  children: <Widget>[
+                    Align(
+                      alignment: Alignment.centerLeft,
+                      child: Container(
+                        child: Text(
+                          "Yakıtın Litre Fiyatı",
+                          style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                            fontFamily: "GrotesklyYours",
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+                    ),
+                    Container(
+                      height: 48,
+                      child: TextField(
+                        controller: _yakitLitreFiyat,
+                        decoration: InputDecoration(
+                          contentPadding: EdgeInsets.only(left: 8, right: 8),
+                          filled: true,
+                          fillColor: Colors.grey[350],
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(6),
+                            ),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(6),
+                            ),
+                            borderSide: BorderSide.none,
+                          ),
+                        ),
+                        cursorColor: Color(0xF93F32),
+                      ),
+                    ),
+                    Align(
+                      alignment: Alignment.centerLeft,
+                      child: Container(
+                        margin: EdgeInsets.only(top: 20),
+                        child: Text(
+                          "Kaç Litre Alındı",
+                          style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                            fontFamily: "GrotesklyYours",
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+                    ),
+                    Container(
+                      height: 48,
+                      child: TextField(
+                        controller: _yakitLitre,
+                        decoration: InputDecoration(
+                          contentPadding: EdgeInsets.only(left: 8, right: 8),
+                          filled: true,
+                          fillColor: Colors.grey[350],
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(6),
+                            ),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(6),
+                            ),
+                            borderSide: BorderSide.none,
+                          ),
+                        ),
+                        cursorColor: Color(0xF93F32),
+                      ),
+                    ),
+                    Align(
+                      alignment: Alignment.centerLeft,
+                      child: Container(
+                        margin: EdgeInsets.only(top: 20),
+                        child: Text(
+                          "Araç Kilometresi",
+                          style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                            fontFamily: "GrotesklyYours",
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+                    ),
+                    Container(
+                      height: 48,
+                      child: TextField(
+                        controller: _aracKilometre,
+                        keyboardType: TextInputType.number,
+                        decoration: InputDecoration(
+                          contentPadding: EdgeInsets.only(left: 8, right: 8),
+                          filled: true,
+                          fillColor: Colors.grey[350],
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(6),
+                            ),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(6),
+                            ),
+                            borderSide: BorderSide.none,
+                          ),
+                        ),
+                        cursorColor: Color(0xF93F32),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+          GestureDetector(
+            onTap: () {
+              arac.kilometre = int.parse(_aracKilometre.text);
+              arac.toplamlira = (widget.arac.toplamlira +
+                  (double.parse(_yakitLitre.text) *
+                      double.parse(_yakitLitreFiyat.text)));
+              arac.toplamlitre =
+                  (widget.arac.toplamlitre + double.parse(_yakitLitre.text));
+              DBHelper().aracUpdate(arac);
+              if (arac.besincikilometre != null) {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => AnaEkran(),
+                  ),
+                );
+              } else {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => IlkYakitEkrani(),
+                  ),
+                );
+              }
+            },
+            child: Container(
+              decoration: BoxDecoration(
+                  color: Colors.green,
+                  borderRadius: BorderRadius.circular(25.0)),
+              margin: EdgeInsets.only(
+                  left: 90.0, right: 90.0, bottom: 15.0, top: 40),
+              height: 50.0,
+              child: Center(
+                child: Text(
+                  "Tamam",
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontFamily: "GrotesklyYours",
+                    color: Colors.black,
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
   yakit() {
+    print(widget.arac.toplamlira);
     return SingleChildScrollView(
       child: Column(
         children: [
@@ -203,21 +415,32 @@ class _YakitAldimState extends State<YakitAldim> {
           GestureDetector(
             onTap: () {
               int aracKilometre =
-                  (int.parse(_aracKilometre.text) - arac.kilometre);
+                  (int.parse(_aracKilometre.text) - arac.sonkilometre);
               if (arac.besinciyakitlitre == null) {
-                arac.besinciyakitfiyat = double.parse(_yakitLitreFiyat.text);
-                arac.besinciyakitlitre = double.parse(_yakitLitre.text);
+                arac.besinciyakitfiyat = ((double.parse(_yakitLitre.text) *
+                        double.parse(_yakitLitreFiyat.text)) +
+                    widget.arac.toplamlira);
+                arac.besinciyakitlitre =
+                    (double.parse(_yakitLitre.text) + widget.arac.toplamlitre);
                 arac.besincikilometre = aracKilometre;
                 arac.kilometre = int.parse(_aracKilometre.text);
+                arac.toplamlira = 0;
+                arac.toplamlitre = 0;
               } else {
                 if (arac.dorduncuyakitlitre == null) {
                   arac.dorduncuyakitfiyat = arac.besinciyakitfiyat;
                   arac.dorduncuyakitlitre = arac.besinciyakitlitre;
                   arac.dorduncukilometre = arac.besincikilometre;
-                  arac.besinciyakitfiyat = double.parse(_yakitLitreFiyat.text);
-                  arac.besinciyakitlitre = double.parse(_yakitLitre.text);
+
+                  arac.besinciyakitfiyat = ((double.parse(_yakitLitre.text) *
+                          double.parse(_yakitLitreFiyat.text)) +
+                      widget.arac.toplamlira);
+                  arac.besinciyakitlitre = (double.parse(_yakitLitre.text) +
+                      widget.arac.toplamlitre);
                   arac.besincikilometre = aracKilometre;
                   arac.kilometre = int.parse(_aracKilometre.text);
+                  arac.toplamlira = 0;
+                  arac.toplamlitre = 0;
                 } else {
                   if (arac.ucuncuyakitlitre == null) {
                     arac.ucuncuyakitfiyat = arac.dorduncuyakitfiyat;
@@ -228,11 +451,15 @@ class _YakitAldimState extends State<YakitAldim> {
                     arac.dorduncuyakitlitre = arac.besinciyakitlitre;
                     arac.dorduncukilometre = arac.besincikilometre;
 
-                    arac.besinciyakitfiyat =
-                        double.parse(_yakitLitreFiyat.text);
-                    arac.besinciyakitlitre = double.parse(_yakitLitre.text);
+                    arac.besinciyakitfiyat = ((double.parse(_yakitLitre.text) *
+                            double.parse(_yakitLitreFiyat.text)) +
+                        widget.arac.toplamlira);
+                    arac.besinciyakitlitre = (double.parse(_yakitLitre.text) +
+                        widget.arac.toplamlitre);
                     arac.besincikilometre = aracKilometre;
                     arac.kilometre = int.parse(_aracKilometre.text);
+                    arac.toplamlira = 0;
+                    arac.toplamlitre = 0;
                   } else {
                     if (arac.ikinciyakitlitre == null) {
                       arac.ikinciyakitfiyat = arac.ucuncuyakitfiyat;
@@ -247,10 +474,15 @@ class _YakitAldimState extends State<YakitAldim> {
                       arac.dorduncuyakitlitre = arac.besinciyakitlitre;
                       arac.dorduncukilometre = arac.besincikilometre;
                       arac.besinciyakitfiyat =
-                          double.parse(_yakitLitreFiyat.text);
-                      arac.besinciyakitlitre = double.parse(_yakitLitre.text);
+                          ((double.parse(_yakitLitre.text) *
+                                  double.parse(_yakitLitreFiyat.text)) +
+                              widget.arac.toplamlira);
+                      arac.besinciyakitlitre = (double.parse(_yakitLitre.text) +
+                          widget.arac.toplamlitre);
                       arac.besincikilometre = aracKilometre;
                       arac.kilometre = int.parse(_aracKilometre.text);
+                      arac.toplamlira = 0;
+                      arac.toplamlitre = 0;
                     } else {
                       if (arac.birinciyakitlitre == null) {
                         arac.birinciyakitfiyat = arac.ikinciyakitfiyat;
@@ -270,10 +502,16 @@ class _YakitAldimState extends State<YakitAldim> {
                         arac.dorduncukilometre = arac.besincikilometre;
                         //------------------------------------------------------
                         arac.besinciyakitfiyat =
-                            double.parse(_yakitLitreFiyat.text);
-                        arac.besinciyakitlitre = double.parse(_yakitLitre.text);
+                            ((double.parse(_yakitLitre.text) *
+                                    double.parse(_yakitLitreFiyat.text)) +
+                                widget.arac.toplamlira);
+                        arac.besinciyakitlitre =
+                            (double.parse(_yakitLitre.text) +
+                                widget.arac.toplamlitre);
                         arac.besincikilometre = aracKilometre;
                         arac.kilometre = int.parse(_aracKilometre.text);
+                        arac.toplamlira = 0;
+                        arac.toplamlitre = 0;
                       } else {
                         arac.birinciyakitfiyat = arac.ikinciyakitfiyat;
                         arac.birinciyakitlitre = arac.ikinciyakitlitre;
@@ -292,10 +530,16 @@ class _YakitAldimState extends State<YakitAldim> {
                         arac.dorduncukilometre = arac.besincikilometre;
                         //------------------------------------------------------
                         arac.besinciyakitfiyat =
-                            double.parse(_yakitLitreFiyat.text);
-                        arac.besinciyakitlitre = double.parse(_yakitLitre.text);
+                            ((double.parse(_yakitLitre.text) *
+                                    double.parse(_yakitLitreFiyat.text)) +
+                                widget.arac.toplamlira);
+                        arac.besinciyakitlitre =
+                            (double.parse(_yakitLitre.text) +
+                                widget.arac.toplamlitre);
                         arac.besincikilometre = aracKilometre;
                         arac.kilometre = int.parse(_aracKilometre.text);
+                        arac.toplamlira = 0;
+                        arac.toplamlitre = 0;
                       }
                     }
                   }

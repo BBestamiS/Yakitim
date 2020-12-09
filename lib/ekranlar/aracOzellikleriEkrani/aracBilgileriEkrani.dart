@@ -1,8 +1,16 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:yakitim/ekranlar/anaEkran.dart';
+import 'package:yakitim/modeller/arac.dart';
 
-class AracOzellikleriEkrani2 extends StatelessWidget {
+class AracOzellikleriEkrani2 extends StatefulWidget {
+  Arac arac;
+  AracOzellikleriEkrani2({this.arac});
+  @override
+  _AracOzellikleriEkrani2State createState() => _AracOzellikleriEkrani2State();
+}
+
+class _AracOzellikleriEkrani2State extends State<AracOzellikleriEkrani2> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -14,6 +22,7 @@ class AracOzellikleriEkrani2 extends StatelessWidget {
               alignment: Alignment.centerLeft,
               child: Column(
                 children: [
+                  //Yan taraflarda bulunan renkler
                   Expanded(
                     child: Container(
                       width: 3,
@@ -115,7 +124,7 @@ class AracOzellikleriEkrani2 extends StatelessWidget {
                                 margin: EdgeInsets.only(
                                     left: 20, top: 35, right: 20),
                                 child: AutoSizeText(
-                                  "Mercedes",
+                                  widget.arac.marka,
                                   style: TextStyle(
                                       fontFamily: "GrotesklyYours",
                                       fontWeight: FontWeight.bold,
@@ -128,7 +137,7 @@ class AracOzellikleriEkrani2 extends StatelessWidget {
                               margin:
                                   EdgeInsets.only(left: 20, top: 75, right: 20),
                               child: AutoSizeText(
-                                "C200d",
+                                widget.arac.model,
                                 style: TextStyle(
                                     fontFamily: "GrotesklyYours",
                                     fontWeight: FontWeight.bold,
@@ -162,7 +171,7 @@ class AracOzellikleriEkrani2 extends StatelessWidget {
                                   Container(
                                     margin: EdgeInsets.only(top: 50),
                                     child: Text(
-                                      "123.300",
+                                      widget.arac.kilometre.toString(),
                                       style: TextStyle(
                                           fontFamily: "GrotesklyYours",
                                           fontSize: 25),
@@ -204,7 +213,7 @@ class AracOzellikleriEkrani2 extends StatelessWidget {
                               child: Container(
                                 margin: EdgeInsets.only(top: 50),
                                 child: Text(
-                                  "Dizel",
+                                  widget.arac.yakittipi,
                                   style: TextStyle(
                                       fontFamily: "GrotesklyYours",
                                       fontSize: 25),
@@ -239,7 +248,7 @@ class AracOzellikleriEkrani2 extends StatelessWidget {
                                   child: Container(
                                     margin: EdgeInsets.only(top: 50),
                                     child: Text(
-                                      "50",
+                                      widget.arac.depohacmi.toString(),
                                       style: TextStyle(
                                           fontFamily: "GrotesklyYours",
                                           fontSize: 25),
@@ -271,7 +280,7 @@ class AracOzellikleriEkrani2 extends StatelessWidget {
                                   child: Container(
                                     margin: EdgeInsets.only(top: 50),
                                     child: Text(
-                                      "1.6",
+                                      widget.arac.motorhacmi.toString(),
                                       style: TextStyle(
                                           fontFamily: "GrotesklyYours",
                                           fontSize: 25),
@@ -331,7 +340,7 @@ class AracOzellikleriEkrani2 extends StatelessWidget {
                                       child: Align(
                                         alignment: Alignment.center,
                                         child: AutoSizeText(
-                                          "00 AA 000",
+                                          widget.arac.plaka.toUpperCase(),
                                           style: TextStyle(
                                               fontFamily: "GrotesklyYours",
                                               fontWeight: FontWeight.bold),

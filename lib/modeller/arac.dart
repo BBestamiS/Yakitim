@@ -28,6 +28,9 @@ class Arac {
   int besincikilometre;
   double aylikyakit;
   int tarih;
+  double toplamlira;
+  double toplamlitre;
+  int sonkilometre;
 
   Arac();
 
@@ -58,6 +61,9 @@ class Arac {
       'besincikilometre': besincikilometre,
       'aylikyakit': aylikyakit,
       'tarih': tarih,
+      'toplamlira': toplamlira,
+      'toplamlitre': toplamlitre,
+      'sonkilometre': sonkilometre,
     };
     return map;
   }
@@ -89,5 +95,8 @@ class Arac {
     besincikilometre = map['besincikilometre'];
     aylikyakit = map['aylikyakit'];
     tarih = map['tarih'];
+    toplamlira = map['toplamlira'];
+    toplamlitre = map['toplamlitre'];
+    sonkilometre = map['sonkilometre'];
   }
 }

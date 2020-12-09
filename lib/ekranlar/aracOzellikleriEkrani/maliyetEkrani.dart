@@ -1,11 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:yakitim/ekranlar/aracOzellikleriEkrani/aracOzellikleriControl.dart';
+import 'package:yakitim/modeller/arac.dart';
 
-class MaliyetEkrani4 extends StatelessWidget {
+class MaliyetEkrani4 extends StatefulWidget {
+  Arac arac;
+  MaliyetEkrani4({this.arac});
+  @override
+  _MaliyetEkrani4State createState() => _MaliyetEkrani4State();
+}
+
+class _MaliyetEkrani4State extends State<MaliyetEkrani4> {
   double birinci = 13.5;
+
   double ikinci = 76.8;
+
   double ucuncu = 98.1;
+
   double dorduncu = 34;
+
   double besinci = 90.99;
 
   @override
@@ -42,17 +54,18 @@ class MaliyetEkrani4 extends StatelessWidget {
                               opacity: 0.70,
                               child: Container(
                                 decoration: BoxDecoration(
-                                    boxShadow: [
-                                      BoxShadow(
-                                          color: Colors.black,
-                                          blurRadius: 26.0,
-                                          spreadRadius: 5.0)
-                                    ],
-                                    color: Colors.white,
-                                    borderRadius: BorderRadius.only(
-                                      topLeft: Radius.circular(20),
-                                      topRight: Radius.circular(20),
-                                    )),
+                                  boxShadow: [
+                                    BoxShadow(
+                                        color: Colors.black,
+                                        blurRadius: 26.0,
+                                        spreadRadius: 5.0)
+                                  ],
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.only(
+                                    topLeft: Radius.circular(20),
+                                    topRight: Radius.circular(20),
+                                  ),
+                                ),
                               ),
                             ),
                             Container(
@@ -332,10 +345,15 @@ class MaliyetEkrani4 extends StatelessWidget {
   }
 
   double birinci1;
+
   double ikinci2;
+
   double ucuncu3;
+
   double dorduncu4;
+
   double besinci5;
+
   grafik() {
     double enbuyuk = enbuyu(
         this.birinci, this.ikinci, this.ucuncu, this.dorduncu, this.besinci);
@@ -368,8 +386,16 @@ class MaliyetEkrani4 extends StatelessWidget {
   }
 }
 
-class MaliyetEkrani5 extends StatelessWidget {
+class MaliyetEkrani5 extends StatefulWidget {
+  Arac arac;
+  MaliyetEkrani5({this.arac});
+  @override
+  _MaliyetEkrani5State createState() => _MaliyetEkrani5State();
+}
+
+class _MaliyetEkrani5State extends State<MaliyetEkrani5> {
   AracOzellikleriControl _bilgiler = AracOzellikleriControl();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

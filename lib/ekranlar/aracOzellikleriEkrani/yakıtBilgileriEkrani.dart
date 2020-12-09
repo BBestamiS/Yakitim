@@ -1,14 +1,25 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:yakitim/ekranlar/aracOzellikleriEkrani/aracOzellikleriControl.dart';
+import 'package:yakitim/hesaplamalar/hesaplamalar.dart';
+import 'package:yakitim/modeller/arac.dart';
 
-class YakitEkrani2 extends StatelessWidget {
-  double depoDolulukLitre = 34;
-  double depoHacmi = 40;
+class YakitEkrani2 extends StatefulWidget {
+  Arac arac;
+  YakitEkrani2({this.arac});
+  @override
+  _YakitEkrani2State createState() => _YakitEkrani2State();
+}
+
+class _YakitEkrani2State extends State<YakitEkrani2> {
+  Arac arac;
+
   AracOzellikleriControl _bilgiler = AracOzellikleriControl();
+
   @override
   Widget build(BuildContext context) {
-    depoDoluluk();
+    arac = widget.arac;
+
     return Scaffold(
       backgroundColor: const Color(0xFFFFFC400), //0xFF9ad3bc
       body: SafeArea(
@@ -73,17 +84,18 @@ class YakitEkrani2 extends StatelessWidget {
                           opacity: 0.70,
                           child: Container(
                             decoration: BoxDecoration(
-                                boxShadow: [
-                                  BoxShadow(
-                                      color: Colors.black,
-                                      blurRadius: 26.0,
-                                      spreadRadius: 5.0)
-                                ],
-                                color: Colors.white,
-                                borderRadius: BorderRadius.only(
-                                  topLeft: Radius.circular(20),
-                                  topRight: Radius.circular(20),
-                                )),
+                              boxShadow: [
+                                BoxShadow(
+                                    color: Colors.black,
+                                    blurRadius: 26.0,
+                                    spreadRadius: 5.0)
+                              ],
+                              color: Colors.white,
+                              borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(20),
+                                topRight: Radius.circular(20),
+                              ),
+                            ),
                           ),
                         ),
                         Container(
@@ -91,45 +103,25 @@ class YakitEkrani2 extends StatelessWidget {
                             children: [
                               Expanded(child: Container()),
                               Expanded(child: Container()),
-                              Container(
-                                child: Column(
-                                  children: [
-                                    Container(
-                                        margin: EdgeInsets.only(bottom: 5),
-                                        child: Text("Depo Doluluk Oranı")),
-                                    Align(
-                                      alignment: Alignment.center,
-                                      child: FractionallySizedBox(
-                                        widthFactor: this.depoDolulukGrafik,
-                                        child: Container(
-                                          decoration: BoxDecoration(
-                                              color: Colors.green,
-                                              borderRadius:
-                                                  BorderRadius.circular(20)),
-                                          height: 10,
-                                          margin: EdgeInsets.only(
-                                              left: 20, right: 20),
-                                        ),
-                                      ),
-                                    ),
-                                    Align(
-                                      alignment: Alignment.center,
-                                      child: Container(
-                                        margin:
-                                            EdgeInsets.only(top: 5, left: 5),
-                                        child: Text(
-                                          "%" + this.yuzdelik.toString(),
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
                               Expanded(child: Container()),
-                              _bilgiler.bilgiler("6.5", " Litre/100km"),
-                              _bilgiler.bilgiler("0.30", " TL/km"),
                               _bilgiler.bilgiler(
-                                  "17", " Litre Son Alınan Yakıt"),
+                                  Hesaplamalar(arac: this.arac)
+                                      .yuzKilometreYakitLitre()
+                                      .toStringAsFixed(1),
+                                  " Litre/100km"),
+                              _bilgiler.bilgiler(
+                                  Hesaplamalar(arac: this.arac)
+                                      .kilometredeYakilanKurus()
+                                      .toStringAsFixed(2),
+                                  " TL/km"),
+                              _bilgiler.bilgiler(
+                                  Hesaplamalar(arac: arac)
+                                      .litredeGidilenKm()
+                                      .toStringAsFixed(2),
+                                  " km/litre"),
+                              _bilgiler.bilgiler(
+                                  arac.besinciyakitlitre.toStringAsFixed(1),
+                                  " Litre Son Alınan Yakıt"),
                               Expanded(child: Container()),
                               Expanded(child: Container()),
                             ],
@@ -147,18 +139,18 @@ class YakitEkrani2 extends StatelessWidget {
     );
     throw UnimplementedError();
   }
-
-  double yuzdelik;
-  double depoDolulukGrafik;
-  depoDoluluk() {
-    double sayi = this.depoDolulukLitre * 100;
-    this.yuzdelik = sayi / depoHacmi;
-    this.depoDolulukGrafik = this.yuzdelik / 100;
-  }
 }
 
-class YakitEkrani3 extends StatelessWidget {
+class YakitEkrani3 extends StatefulWidget {
+  Arac arac;
+  YakitEkrani3({this.arac});
+  @override
+  _YakitEkrani3State createState() => _YakitEkrani3State();
+}
+
+class _YakitEkrani3State extends State<YakitEkrani3> {
   AracOzellikleriControl _bilgiler = AracOzellikleriControl();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -192,11 +184,26 @@ class YakitEkrani3 extends StatelessWidget {
                       child: Column(
                         children: [
                           Expanded(child: Container()),
-                          _bilgiler.bilgiler("7.3", " Litre/100km Ortalama"),
-                          _bilgiler.bilgiler("653", " Km Tahmini Menzil"),
-                          _bilgiler.bilgiler("0.37", " TL/km Ortalama"),
                           _bilgiler.bilgiler(
-                              "25", " Litre Genelde Alınan Yakıt"),
+                              Hesaplamalar(arac: widget.arac)
+                                  .yuzKilometreOrtalama()
+                                  .toStringAsFixed(1),
+                              " Litre/100km Ortalama"),
+                          _bilgiler.bilgiler(
+                              Hesaplamalar(arac: widget.arac).tahminiMenzil(),
+                              " Km Tahmini Menzil"),
+                          _bilgiler.bilgiler(
+                              Hesaplamalar(arac: widget.arac)
+                                  .kilometredeYakilanOrtalamaKurus()
+                                  .toStringAsFixed(2),
+                              " TL/km Ortalama"),
+                          _bilgiler.bilgiler(
+                              Hesaplamalar(arac: widget.arac)
+                                  .geneldeAlinanYakit(),
+                              " Litre Genelde Alınan Yakıt"),
+                          _bilgiler.bilgiler(
+                              Hesaplamalar(arac: widget.arac).tahminiMenzil(),
+                              " Km Tahmini Menzil"),
                           Expanded(child: Container()),
                         ],
                       ),

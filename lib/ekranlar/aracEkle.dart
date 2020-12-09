@@ -414,6 +414,9 @@ class _AracEkle extends State {
                     this.arac.yakittipi = _yakitTipi.text;
                     this.arac.depohacmi = int.parse(_depoHacmi.text);
                     this.arac.motorhacmi = double.parse(_motorHacmi.text);
+                    this.arac.sonkilometre = int.parse(_kilometresi.text);
+                    this.arac.toplamlira = 0;
+                    this.arac.toplamlitre = 0;
                     secim.secim = 1;
                     dbHelper.aracEkle(this.arac);
                     dbHelper.secimEkle(secim);
@@ -431,6 +434,9 @@ class _AracEkle extends State {
                     this.arac.yakittipi = _yakitTipi.text;
                     this.arac.depohacmi = int.parse(_depoHacmi.text);
                     this.arac.motorhacmi = double.parse(_motorHacmi.text);
+                    this.arac.sonkilometre = int.parse(_kilometresi.text);
+                    this.arac.toplamlira = 0;
+                    this.arac.toplamlitre = 0;
                     dbHelper.aracEkle(this.arac);
                     Navigator.push(
                       context,

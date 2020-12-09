@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:yakitim/database/database.dart';
 import 'package:yakitim/ekranlar/araclarimEkrani.dart';
 import 'package:yakitim/ekranlar/yakitAldim.dart';
+import 'package:yakitim/modeller/arac.dart';
 
 class IlkYakitEkrani extends StatefulWidget {
   @override
@@ -8,10 +10,36 @@ class IlkYakitEkrani extends StatefulWidget {
 }
 
 class _IlkYakitEkrani extends State<IlkYakitEkrani> {
+  Future aracFuture;
+  Arac arac;
+  @override
+  void initState() {
+    super.initState();
+
+    aracFuture = _aracGetir();
+  }
+
+  _aracGetir() async {
+    return await DBHelper().getArac();
+  }
+
   var buton = button1();
   @override
   Widget build(BuildContext context) {
-    return yakitAlmaEkrani();
+    return Scaffold(
+        backgroundColor: const Color(0xFF2C2C32),
+        body: SafeArea(
+            child: FutureBuilder(
+                future: aracFuture,
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.done) {
+                    this.arac = snapshot.data;
+                    return yakitAlmaEkrani();
+                  } else {
+                    return Center(child: CircularProgressIndicator());
+                  }
+                })));
+
     throw UnimplementedError();
   }
 
@@ -101,11 +129,67 @@ class _IlkYakitEkrani extends State<IlkYakitEkrani> {
                         setState(() {
                           this.buton = button1();
                         });
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => YakitAldim(),
+                        showDialog(
+                          context: context,
+                          builder: (_) => AlertDialog(
+                            backgroundColor: Colors.white,
+                            content: Text(
+                              "Depo Tam Dolduruldu Mu?",
+                              style: TextStyle(
+                                  fontFamily: "GrotesklyYours",
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                            actions: [
+                              Row(
+                                children: [
+                                  GestureDetector(
+                                      onTap: () {
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    YakitAldim(
+                                                      secim: 1,
+                                                      arac: this.arac,
+                                                    )));
+                                      },
+                                      child: Container(
+                                        margin: EdgeInsets.only(right: 5),
+                                        width: 30,
+                                        height: 30,
+                                        decoration: BoxDecoration(
+                                            image: DecorationImage(
+                                          image: AssetImage(
+                                              "assets/images/tick.png"),
+                                        )),
+                                      )),
+                                  GestureDetector(
+                                      onTap: () {
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    YakitAldim(
+                                                      secim: 2,
+                                                      arac: this.arac,
+                                                    )));
+                                      },
+                                      child: Container(
+                                        margin: EdgeInsets.only(right: 10),
+                                        width: 30,
+                                        height: 30,
+                                        decoration: BoxDecoration(
+                                            image: DecorationImage(
+                                          image: AssetImage(
+                                              "assets/images/delete.png"),
+                                        )),
+                                      )),
+                                ],
+                              )
+                            ],
                           ),
+                          barrierDismissible: false,
                         );
                       },
                       child: Container(

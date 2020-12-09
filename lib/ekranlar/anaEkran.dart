@@ -21,6 +21,7 @@ class _AnaEkran extends State<AnaEkran> {
   int secim;
   var buton = button1();
   var yazi;
+
   @override
   void initState() {
     super.initState();
@@ -40,7 +41,6 @@ class _AnaEkran extends State<AnaEkran> {
             child: FutureBuilder(
                 future: aracFuture,
                 builder: (context, snapshot) {
-                  arac = snapshot.data;
                   if (snapshot.connectionState == ConnectionState.done) {
                     this.arac = snapshot.data;
                     yazi = textt.text(this.yaziSayac, arac);
@@ -180,11 +180,67 @@ class _AnaEkran extends State<AnaEkran> {
                     alignment: Alignment.center,
                     child: GestureDetector(
                       onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => YakitAldim(),
+                        showDialog(
+                          context: context,
+                          builder: (_) => AlertDialog(
+                            backgroundColor: Colors.white,
+                            content: Text(
+                              "Depo Tam Dolduruldu Mu?",
+                              style: TextStyle(
+                                  fontFamily: "GrotesklyYours",
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                            actions: [
+                              Row(
+                                children: [
+                                  GestureDetector(
+                                      onTap: () {
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    YakitAldim(
+                                                      secim: 1,
+                                                      arac: this.arac,
+                                                    )));
+                                      },
+                                      child: Container(
+                                        margin: EdgeInsets.only(right: 5),
+                                        width: 30,
+                                        height: 30,
+                                        decoration: BoxDecoration(
+                                            image: DecorationImage(
+                                          image: AssetImage(
+                                              "assets/images/tick.png"),
+                                        )),
+                                      )),
+                                  GestureDetector(
+                                      onTap: () {
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    YakitAldim(
+                                                      secim: 2,
+                                                      arac: this.arac,
+                                                    )));
+                                      },
+                                      child: Container(
+                                        margin: EdgeInsets.only(right: 10),
+                                        width: 30,
+                                        height: 30,
+                                        decoration: BoxDecoration(
+                                            image: DecorationImage(
+                                          image: AssetImage(
+                                              "assets/images/delete.png"),
+                                        )),
+                                      )),
+                                ],
+                              )
+                            ],
                           ),
+                          barrierDismissible: false,
                         );
                       },
                       child: Container(
@@ -216,7 +272,9 @@ class _AnaEkran extends State<AnaEkran> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => AracOzellikleriControl(),
+                            builder: (context) => AracOzellikleriControl(
+                              arac: this.arac,
+                            ),
                           ),
                         );
                       },
@@ -309,10 +367,7 @@ class Textt {
       return Container(
         margin: EdgeInsets.only(left: 10, right: 10),
         child: AutoSizeText(
-          Hesaplamalar()
-                  .yuzKilometreYakitLitre(
-                      arac.besincikilometre, arac.besinciyakitlitre)
-                  .toStringAsFixed(1) +
+          Hesaplamalar(arac: arac).yuzKilometreYakitLitre().toStringAsFixed(1) +
               " litre/100km",
           style: TextStyle(fontFamily: "GrotesklyYours", fontSize: 40),
           maxLines: 1,
@@ -322,13 +377,10 @@ class Textt {
       return Container(
         margin: EdgeInsets.only(left: 10, right: 10),
         child: AutoSizeText(
-          Hesaplamalar()
-                  .kilometredeYakilanKurus(
-                      Hesaplamalar().alinanYakitFiyati(
-                          arac.besinciyakitfiyat, arac.besinciyakitlitre),
-                      arac.besincikilometre)
+          Hesaplamalar(arac: arac)
+                  .kilometredeYakilanKurus()
                   .toStringAsFixed(2) +
-              " kuruş/km",
+              " lira/km",
           style: TextStyle(fontFamily: "GrotesklyYours", fontSize: 40),
           maxLines: 1,
         ),
@@ -337,12 +389,7 @@ class Textt {
       return Container(
         margin: EdgeInsets.only(left: 10, right: 10),
         child: AutoSizeText(
-          "Son yakıt " +
-              Hesaplamalar()
-                  .alinanYakitFiyati(
-                      arac.besinciyakitfiyat, arac.besinciyakitlitre)
-                  .toStringAsFixed(2) +
-              " TL",
+          "Son yakıt " + arac.besinciyakitfiyat.toStringAsFixed(2) + " TL",
           style: TextStyle(fontFamily: "GrotesklyYours", fontSize: 40),
           maxLines: 2,
         ),
