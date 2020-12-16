@@ -31,6 +31,17 @@ class Arac {
   double toplamlira;
   double toplamlitre;
   int sonkilometre;
+  double birinciFiyat;
+  double birinciLitre;
+  double ikinciFiyat;
+  double ikinciLitre;
+  double ucuncuFiyat;
+  double ucuncuLitre;
+  double dorduncuFiyat;
+  double dorduncuLitre;
+  double besinciFiyat;
+  double besinciLitre;
+  int motorisigi;
 
   Arac();
 
@@ -64,6 +75,17 @@ class Arac {
       'toplamlira': toplamlira,
       'toplamlitre': toplamlitre,
       'sonkilometre': sonkilometre,
+      'birinciFiyat': birinciFiyat,
+      'ikinciFiyat': ikinciFiyat,
+      'ucuncuFiyat': ucuncuFiyat,
+      'dorduncuFiyat': dorduncuFiyat,
+      'besinciFiyat': besinciFiyat,
+      'birinciLitre': birinciLitre,
+      'ikinciLitre': ikinciLitre,
+      'ucuncuLitre': ucuncuLitre,
+      'dorduncuLitre': dorduncuLitre,
+      'besinciLitre': besinciLitre,
+      'motorisigi': motorisigi,
     };
     return map;
   }
@@ -98,5 +120,16 @@ class Arac {
     toplamlira = map['toplamlira'];
     toplamlitre = map['toplamlitre'];
     sonkilometre = map['sonkilometre'];
+    birinciFiyat = map['birinciFiyat'];
+    ikinciFiyat = map['ikinciFiyat'];
+    ucuncuFiyat = map['ucuncuFiyat'];
+    dorduncuFiyat = map['dorduncuFiyat'];
+    besinciFiyat = map['besinciFiyat'];
+    birinciLitre = map['birinciLitre'];
+    ikinciLitre = map['ikinciLitre'];
+    ucuncuLitre = map['ucuncuLitre'];
+    dorduncuLitre = map['dorduncuLitre'];
+    besinciLitre = map['besinciLitre'];
+    motorisigi = map['motorisigi'];
   }
 }

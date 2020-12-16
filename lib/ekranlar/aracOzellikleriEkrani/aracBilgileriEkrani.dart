@@ -1,5 +1,6 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:yakitim/database/database.dart';
 import 'package:yakitim/ekranlar/anaEkran.dart';
 import 'package:yakitim/modeller/arac.dart';
 
@@ -11,6 +12,13 @@ class AracOzellikleriEkrani2 extends StatefulWidget {
 }
 
 class _AracOzellikleriEkrani2State extends State<AracOzellikleriEkrani2> {
+  DBHelper dbHelper;
+  @override
+  void initState() {
+    super.initState();
+    dbHelper = DBHelper();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -108,15 +116,7 @@ class _AracOzellikleriEkrani2State extends State<AracOzellikleriEkrani2> {
                           children: [
                             Align(
                               alignment: Alignment.centerRight,
-                              child: Container(
-                                margin: EdgeInsets.only(right: 20, top: 50),
-                                width: 50,
-                                height: 50,
-                                decoration: BoxDecoration(
-                                    image: DecorationImage(
-                                        image: AssetImage(
-                                            "assets/images/engine1.png"))),
-                              ),
+                              child: motorIsigi(),
                             ),
                             Align(
                               alignment: Alignment.centerLeft,
@@ -213,7 +213,7 @@ class _AracOzellikleriEkrani2State extends State<AracOzellikleriEkrani2> {
                               child: Container(
                                 margin: EdgeInsets.only(top: 50),
                                 child: Text(
-                                  widget.arac.yakittipi,
+                                  yakitTipi1(),
                                   style: TextStyle(
                                       fontFamily: "GrotesklyYours",
                                       fontSize: 25),
@@ -363,12 +363,13 @@ class _AracOzellikleriEkrani2State extends State<AracOzellikleriEkrani2> {
             Align(
               alignment: Alignment.bottomRight,
               child: Container(
-                width: 200,
+                width: 220,
                 height: 130,
                 margin: EdgeInsets.only(),
                 decoration: BoxDecoration(
                   image: DecorationImage(
-                    image: AssetImage("assets/images/tesla.png"),
+                    image: AssetImage("assets/images/porscheon.png"),
+                    // image: AssetImage("assets/images/tesla.png"),
                   ),
                 ),
               ),
@@ -400,5 +401,108 @@ class _AracOzellikleriEkrani2State extends State<AracOzellikleriEkrani2> {
       ),
     );
     throw UnimplementedError();
+  }
+
+  motorIsigi() {
+    if (widget.arac.motorisigi == 1) {
+      return Stack(
+        children: [
+          Container(
+            margin: EdgeInsets.only(right: 20, top: 50),
+            width: 50,
+            height: 50,
+            decoration: BoxDecoration(
+                color: Colors.transparent,
+                shape: BoxShape.circle,
+                boxShadow: [
+                  BoxShadow(
+                      color: Colors.yellow,
+                      blurRadius: 26.0,
+                      spreadRadius: 10.0),
+                ]),
+          ),
+          GestureDetector(
+            onTap: () {
+              print("object");
+              showDialog(
+                context: context,
+                builder: (_) => AlertDialog(
+                  title: Text(
+                    widget.arac.marka.toUpperCase(),
+                    style: TextStyle(fontFamily: "GrotesklyYours"),
+                  ),
+                  content: Text(
+                      "Marka aracın motor arza ışığını söndürmek istediğinizden emin misiniz?"),
+                  actions: [
+                    Row(
+                      children: [
+                        GestureDetector(
+                            onTap: () {
+                              widget.arac.motorisigi = 0;
+                              dbHelper.aracUpdate(widget.arac);
+                              setState(() {});
+                              Navigator.of(context).pop();
+                            },
+                            child: Container(
+                              margin: EdgeInsets.only(right: 10),
+                              width: 30,
+                              height: 30,
+                              decoration: BoxDecoration(
+                                  image: DecorationImage(
+                                image: AssetImage("assets/images/tick.png"),
+                              )),
+                            )),
+                        GestureDetector(
+                            onTap: () {
+                              Navigator.of(context).pop();
+                            },
+                            child: Container(
+                              margin: EdgeInsets.only(right: 10),
+                              width: 30,
+                              height: 30,
+                              decoration: BoxDecoration(
+                                  image: DecorationImage(
+                                image: AssetImage("assets/images/delete.png"),
+                              )),
+                            )),
+                      ],
+                    )
+                  ],
+                ),
+              );
+            },
+            child: Container(
+              margin: EdgeInsets.only(right: 20, top: 50),
+              width: 50,
+              height: 50,
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage("assets/images/engine.png"),
+                ),
+              ),
+            ),
+          ),
+        ],
+      );
+    } else {
+      return Container(
+        margin: EdgeInsets.only(right: 20, top: 50),
+        width: 50,
+        height: 50,
+        decoration: BoxDecoration(
+            image: DecorationImage(
+                image: AssetImage("assets/images/engine1.png"))),
+      );
+    }
+  }
+
+  String yakitTipi1() {
+    if (widget.arac.yakittipi == "lpg") {
+      return "LPG";
+    } else if (widget.arac.yakittipi == "benzin") {
+      return "Benzin";
+    } else {
+      return "Dizel";
+    }
   }
 }

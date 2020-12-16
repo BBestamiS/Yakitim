@@ -120,7 +120,7 @@ class _YakitEkrani2State extends State<YakitEkrani2> {
                                       .toStringAsFixed(2),
                                   " km/litre"),
                               _bilgiler.bilgiler(
-                                  arac.besinciyakitlitre.toStringAsFixed(1),
+                                  arac.besinciLitre.toStringAsFixed(1),
                                   " Litre Son Alınan Yakıt"),
                               Expanded(child: Container()),
                               Expanded(child: Container()),
@@ -189,9 +189,6 @@ class _YakitEkrani3State extends State<YakitEkrani3> {
                                   .yuzKilometreOrtalama()
                                   .toStringAsFixed(1),
                               " Litre/100km Ortalama"),
-                          _bilgiler.bilgiler(
-                              Hesaplamalar(arac: widget.arac).tahminiMenzil(),
-                              " Km Tahmini Menzil"),
                           _bilgiler.bilgiler(
                               Hesaplamalar(arac: widget.arac)
                                   .kilometredeYakilanOrtalamaKurus()

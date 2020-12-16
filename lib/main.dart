@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:yakitim/database/database.dart';
 import 'package:yakitim/ekranlar/anaEkran.dart';
 import 'package:yakitim/ekranlar/bilgilendirme.dart';
@@ -54,7 +53,7 @@ class EkranSecimi extends StatelessWidget {
         }
       },
     );
-    // print(DateFormat.M().format(DateTime.now()));
+
     throw UnimplementedError();
   }
 }

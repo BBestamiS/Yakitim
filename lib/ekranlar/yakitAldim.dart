@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:yakitim/database/database.dart';
 import 'package:yakitim/ekranlar/anaEkran.dart';
 import 'package:yakitim/ekranlar/ilkYakitEkrani.dart';
+import 'package:yakitim/hesaplamalar/hesaplamalar.dart';
 import 'package:yakitim/modeller/arac.dart';
 
 class YakitAldim extends StatefulWidget {
@@ -39,6 +41,11 @@ class _YakitAldimState extends State<YakitAldim> {
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.done) {
               this.arac = snapshot.data;
+              print("son yakıt = " + arac.besinciFiyat.toString());
+              print("1 yakıt = " + arac.dorduncuFiyat.toString());
+              print("2 yakıt = " + arac.ucuncuFiyat.toString());
+              print("3 yakıt = " + arac.ikinciFiyat.toString());
+              print("4 yakıt = " + arac.birinciFiyat.toString());
               if (widget.secim == 1) {
                 return yakit();
               } else {
@@ -216,6 +223,21 @@ class _YakitAldimState extends State<YakitAldim> {
                       double.parse(_yakitLitreFiyat.text)));
               arac.toplamlitre =
                   (widget.arac.toplamlitre + double.parse(_yakitLitre.text));
+              kaydirma();
+              if (arac.tarih == null) {
+                arac.tarih = 0;
+              }
+              if (arac.tarih ==
+                  int.parse(DateFormat.M().format(DateTime.now()))) {
+                arac.aylikyakit = arac.aylikyakit +
+                    (double.parse(_yakitLitre.text) *
+                        double.parse(_yakitLitreFiyat.text));
+              } else {
+                arac.aylikyakit = double.parse(_yakitLitre.text) *
+                    double.parse(_yakitLitreFiyat.text);
+              }
+              arac.tarih = int.parse(DateFormat.M().format(DateTime.now()));
+              arac.motorisigi = 0;
               DBHelper().aracUpdate(arac);
               if (arac.besincikilometre != null) {
                 Navigator.push(
@@ -426,6 +448,8 @@ class _YakitAldimState extends State<YakitAldim> {
                 arac.kilometre = int.parse(_aracKilometre.text);
                 arac.toplamlira = 0;
                 arac.toplamlitre = 0;
+                arac.sonkilometre = int.parse(_aracKilometre.text);
+                kaydirma();
               } else {
                 if (arac.dorduncuyakitlitre == null) {
                   arac.dorduncuyakitfiyat = arac.besinciyakitfiyat;
@@ -441,6 +465,9 @@ class _YakitAldimState extends State<YakitAldim> {
                   arac.kilometre = int.parse(_aracKilometre.text);
                   arac.toplamlira = 0;
                   arac.toplamlitre = 0;
+                  arac.sonkilometre = int.parse(_aracKilometre.text);
+
+                  kaydirma();
                 } else {
                   if (arac.ucuncuyakitlitre == null) {
                     arac.ucuncuyakitfiyat = arac.dorduncuyakitfiyat;
@@ -460,6 +487,8 @@ class _YakitAldimState extends State<YakitAldim> {
                     arac.kilometre = int.parse(_aracKilometre.text);
                     arac.toplamlira = 0;
                     arac.toplamlitre = 0;
+                    arac.sonkilometre = int.parse(_aracKilometre.text);
+                    kaydirma();
                   } else {
                     if (arac.ikinciyakitlitre == null) {
                       arac.ikinciyakitfiyat = arac.ucuncuyakitfiyat;
@@ -483,75 +512,101 @@ class _YakitAldimState extends State<YakitAldim> {
                       arac.kilometre = int.parse(_aracKilometre.text);
                       arac.toplamlira = 0;
                       arac.toplamlitre = 0;
+                      arac.sonkilometre = int.parse(_aracKilometre.text);
+                      kaydirma();
                     } else {
-                      if (arac.birinciyakitlitre == null) {
-                        arac.birinciyakitfiyat = arac.ikinciyakitfiyat;
-                        arac.birinciyakitlitre = arac.ikinciyakitlitre;
-                        arac.birincikilometre = arac.ikincikilometre;
-                        //------------------------------------------------------
-                        arac.ikinciyakitfiyat = arac.ucuncuyakitfiyat;
-                        arac.ikinciyakitlitre = arac.ucuncuyakitlitre;
-                        arac.ikincikilometre = arac.ucuncukilometre;
-                        //------------------------------------------------------
-                        arac.ucuncuyakitfiyat = arac.dorduncuyakitfiyat;
-                        arac.ucuncuyakitlitre = arac.dorduncuyakitlitre;
-                        arac.ucuncukilometre = arac.dorduncukilometre;
-                        //------------------------------------------------------
-                        arac.dorduncuyakitfiyat = arac.besinciyakitfiyat;
-                        arac.dorduncuyakitlitre = arac.besinciyakitlitre;
-                        arac.dorduncukilometre = arac.besincikilometre;
-                        //------------------------------------------------------
-                        arac.besinciyakitfiyat =
-                            ((double.parse(_yakitLitre.text) *
-                                    double.parse(_yakitLitreFiyat.text)) +
-                                widget.arac.toplamlira);
-                        arac.besinciyakitlitre =
-                            (double.parse(_yakitLitre.text) +
-                                widget.arac.toplamlitre);
-                        arac.besincikilometre = aracKilometre;
-                        arac.kilometre = int.parse(_aracKilometre.text);
-                        arac.toplamlira = 0;
-                        arac.toplamlitre = 0;
-                      } else {
-                        arac.birinciyakitfiyat = arac.ikinciyakitfiyat;
-                        arac.birinciyakitlitre = arac.ikinciyakitlitre;
-                        arac.birincikilometre = arac.ikincikilometre;
-                        //------------------------------------------------------
-                        arac.ikinciyakitfiyat = arac.ucuncuyakitfiyat;
-                        arac.ikinciyakitlitre = arac.ucuncuyakitlitre;
-                        arac.ikincikilometre = arac.ucuncukilometre;
-                        //------------------------------------------------------
-                        arac.ucuncuyakitfiyat = arac.dorduncuyakitfiyat;
-                        arac.ucuncuyakitlitre = arac.dorduncuyakitlitre;
-                        arac.ucuncukilometre = arac.dorduncukilometre;
-                        //------------------------------------------------------
-                        arac.dorduncuyakitfiyat = arac.besinciyakitfiyat;
-                        arac.dorduncuyakitlitre = arac.besinciyakitlitre;
-                        arac.dorduncukilometre = arac.besincikilometre;
-                        //------------------------------------------------------
-                        arac.besinciyakitfiyat =
-                            ((double.parse(_yakitLitre.text) *
-                                    double.parse(_yakitLitreFiyat.text)) +
-                                widget.arac.toplamlira);
-                        arac.besinciyakitlitre =
-                            (double.parse(_yakitLitre.text) +
-                                widget.arac.toplamlitre);
-                        arac.besincikilometre = aracKilometre;
-                        arac.kilometre = int.parse(_aracKilometre.text);
-                        arac.toplamlira = 0;
-                        arac.toplamlitre = 0;
-                      }
+                      arac.birinciyakitfiyat = arac.ikinciyakitfiyat;
+                      arac.birinciyakitlitre = arac.ikinciyakitlitre;
+                      arac.birincikilometre = arac.ikincikilometre;
+                      //------------------------------------------------------
+                      arac.ikinciyakitfiyat = arac.ucuncuyakitfiyat;
+                      arac.ikinciyakitlitre = arac.ucuncuyakitlitre;
+                      arac.ikincikilometre = arac.ucuncukilometre;
+                      //------------------------------------------------------
+                      arac.ucuncuyakitfiyat = arac.dorduncuyakitfiyat;
+                      arac.ucuncuyakitlitre = arac.dorduncuyakitlitre;
+                      arac.ucuncukilometre = arac.dorduncukilometre;
+                      //------------------------------------------------------
+                      arac.dorduncuyakitfiyat = arac.besinciyakitfiyat;
+                      arac.dorduncuyakitlitre = arac.besinciyakitlitre;
+                      arac.dorduncukilometre = arac.besincikilometre;
+                      //------------------------------------------------------
+                      arac.besinciyakitfiyat =
+                          ((double.parse(_yakitLitre.text) *
+                                  double.parse(_yakitLitreFiyat.text)) +
+                              widget.arac.toplamlira);
+                      arac.besinciyakitlitre = (double.parse(_yakitLitre.text) +
+                          widget.arac.toplamlitre);
+                      arac.besincikilometre = aracKilometre;
+                      arac.kilometre = int.parse(_aracKilometre.text);
+                      arac.toplamlira = 0;
+                      arac.toplamlitre = 0;
+                      arac.sonkilometre = int.parse(_aracKilometre.text);
+                      kaydirma();
                     }
                   }
                 }
               }
+              if (arac.tarih == null) {
+                arac.tarih = 0;
+              }
+              if (arac.tarih ==
+                  int.parse(DateFormat.M().format(DateTime.now()))) {
+                arac.aylikyakit = arac.aylikyakit +
+                    (double.parse(_yakitLitre.text) *
+                        double.parse(_yakitLitreFiyat.text));
+              } else {
+                arac.aylikyakit = double.parse(_yakitLitre.text) *
+                    double.parse(_yakitLitreFiyat.text);
+              }
+              arac.tarih = int.parse(DateFormat.M().format(DateTime.now()));
+              if (arac.dorduncuyakitfiyat != null) {
+                arac.motorisigi = Hesaplamalar(arac: arac).checkEngine();
+              }
               DBHelper().aracUpdate(arac);
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => AnaEkran(),
-                ),
-              );
+              if (arac.motorisigi == 1) {
+                showDialog(
+                  context: context,
+                  builder: (_) => AlertDialog(
+                    title: Text(
+                      "Dikkat!",
+                      style: TextStyle(color: Colors.red),
+                    ),
+                    content: Text(
+                        "Aracınız aşırı derecede yakıt tüketti, en kısa zamanda bakıma götürünüz."),
+                    actions: [
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => AnaEkran(),
+                            ),
+                          );
+                        },
+                        child: Center(
+                          child: Container(
+                            margin: EdgeInsets.only(right: 10),
+                            width: 70,
+                            height: 30,
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(20),
+                                color: Colors.orange),
+                            child: Center(child: Text("Tamam")),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                );
+              } else {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => AnaEkran(),
+                  ),
+                );
+              }
             },
             child: Container(
               decoration: BoxDecoration(
@@ -575,6 +630,51 @@ class _YakitAldimState extends State<YakitAldim> {
         ],
       ),
     );
+  }
+
+  kaydirma() {
+    if (arac.besinciFiyat == null) {
+      arac.besinciFiyat = double.parse(_yakitLitreFiyat.text);
+      arac.besinciLitre = double.parse(_yakitLitre.text);
+    } else {
+      if (arac.dorduncuFiyat == null) {
+        arac.dorduncuFiyat = arac.besinciFiyat;
+        arac.dorduncuLitre = arac.besinciLitre;
+        arac.besinciFiyat = double.parse(_yakitLitreFiyat.text);
+        arac.besinciLitre = double.parse(_yakitLitre.text);
+      } else {
+        if (arac.ucuncuFiyat == null) {
+          arac.ucuncuFiyat = arac.dorduncuFiyat;
+          arac.ucuncuLitre = arac.dorduncuLitre;
+          arac.dorduncuFiyat = arac.besinciFiyat;
+          arac.dorduncuLitre = arac.besinciLitre;
+          arac.besinciFiyat = double.parse(_yakitLitreFiyat.text);
+          arac.besinciLitre = double.parse(_yakitLitre.text);
+        } else {
+          if (arac.ikinciFiyat == null) {
+            arac.ikinciFiyat = arac.ucuncuFiyat;
+            arac.ikinciLitre = arac.ucuncuLitre;
+            arac.ucuncuFiyat = arac.dorduncuFiyat;
+            arac.ucuncuLitre = arac.dorduncuLitre;
+            arac.dorduncuFiyat = arac.besinciFiyat;
+            arac.dorduncuLitre = arac.besinciLitre;
+            arac.besinciFiyat = double.parse(_yakitLitreFiyat.text);
+            arac.besinciLitre = double.parse(_yakitLitre.text);
+          } else {
+            arac.birinciFiyat = arac.ikinciFiyat;
+            arac.birinciLitre = arac.ikinciLitre;
+            arac.ikinciFiyat = arac.ucuncuFiyat;
+            arac.ikinciLitre = arac.ucuncuLitre;
+            arac.ucuncuFiyat = arac.dorduncuFiyat;
+            arac.ucuncuLitre = arac.dorduncuLitre;
+            arac.dorduncuFiyat = arac.besinciFiyat;
+            arac.dorduncuLitre = arac.besinciLitre;
+            arac.besinciFiyat = double.parse(_yakitLitreFiyat.text);
+            arac.besinciLitre = double.parse(_yakitLitre.text);
+          }
+        }
+      }
+    }
   }
 
   geriButonu() {

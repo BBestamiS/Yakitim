@@ -81,7 +81,7 @@ class _IlkYakitEkrani extends State<IlkYakitEkrani> {
                       alignment: Alignment.topCenter,
                       child: Container(
                         child: Text(
-                          "Yakıt Aldığında",
+                          "Depo Doldurulduğunda",
                           style: TextStyle(
                               color: Colors.white,
                               fontFamily: "GrotesklyYours",
@@ -133,12 +133,35 @@ class _IlkYakitEkrani extends State<IlkYakitEkrani> {
                           context: context,
                           builder: (_) => AlertDialog(
                             backgroundColor: Colors.white,
-                            content: Text(
-                              "Depo Tam Dolduruldu Mu?",
-                              style: TextStyle(
-                                  fontFamily: "GrotesklyYours",
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.bold),
+                            content: Container(
+                              height: 56,
+                              child: Column(
+                                children: [
+                                  Align(
+                                    alignment: Alignment.centerLeft,
+                                    child: GestureDetector(
+                                        onTap: () {
+                                          Navigator.of(context).pop();
+                                        },
+                                        child: Container(
+                                          width: 30,
+                                          height: 30,
+                                          decoration: BoxDecoration(
+                                              image: DecorationImage(
+                                            image: AssetImage(
+                                                "assets/images/backButton2.png"),
+                                          )),
+                                        )),
+                                  ),
+                                  Text(
+                                    "Depo Tam Dolduruldu Mu?",
+                                    style: TextStyle(
+                                        fontFamily: "GrotesklyYours",
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                ],
+                              ),
                             ),
                             actions: [
                               Row(
@@ -186,7 +209,7 @@ class _IlkYakitEkrani extends State<IlkYakitEkrani> {
                                         )),
                                       )),
                                 ],
-                              )
+                              ),
                             ],
                           ),
                           barrierDismissible: false,

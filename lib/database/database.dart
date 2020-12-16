@@ -24,7 +24,7 @@ class DBHelper {
 
   _onCreate(Database db, int version) async {
     await db.execute(
-        "CREATE TABLE arac ( id INTEGER PRIMARY KEY AUTOINCREMENT, marka TEXT, model TEXT, plaka TEXT, kilometre INTEGER, yakittipi TEXT, depohacmi INTEGER, motorhacmi REAL, birinciyakitfiyat REAL, birinciyakitlitre REAL, birincikilometre INTEGER,ikinciyakitfiyat REAL, ikinciyakitlitre REAL, ikincikilometre INTEGER,ucuncuyakitfiyat REAL, ucuncuyakitlitre REAL, ucuncukilometre INTEGER,dorduncuyakitfiyat REAL, dorduncuyakitlitre REAL, dorduncukilometre INTEGER,besinciyakitfiyat REAL,besinciyakitlitre REAL, besincikilometre INTEGER, aylikyakit REAL, tarih INTEGER , toplamlira REAL, toplamlitre REAL, sonkilometre INTEGER)");
+        "CREATE TABLE arac ( id INTEGER PRIMARY KEY AUTOINCREMENT, marka TEXT, model TEXT, plaka TEXT, kilometre INTEGER, yakittipi TEXT, depohacmi INTEGER, motorhacmi REAL, birinciyakitfiyat REAL, birinciyakitlitre REAL, birincikilometre INTEGER,ikinciyakitfiyat REAL, ikinciyakitlitre REAL, ikincikilometre INTEGER,ucuncuyakitfiyat REAL, ucuncuyakitlitre REAL, ucuncukilometre INTEGER,dorduncuyakitfiyat REAL, dorduncuyakitlitre REAL, dorduncukilometre INTEGER,besinciyakitfiyat REAL,besinciyakitlitre REAL, besincikilometre INTEGER, aylikyakit REAL, tarih INTEGER , toplamlira REAL, toplamlitre REAL, sonkilometre INTEGER, birinciFiyat REAL,birinciLitre REAL, ikinciFiyat REAL,ikinciLitre REAL, ucuncuFiyat REAL,ucuncuLitre REAL,dorduncuFiyat REAL,dorduncuLitre REAL, besinciFiyat REAL,besinciLitre REAL, motorisigi INTEGER)");
     await db.execute(
         "CREATE TABLE secim (id INTEGER PRIMARY KEY AUTOINCREMENT, secim INTEGER )");
   }

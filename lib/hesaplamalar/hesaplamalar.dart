@@ -51,6 +51,10 @@ class Hesaplamalar {
     return (arac.besincikilometre / arac.besinciyakitlitre);
   }
 
+  double litredeGidilenOrtalamaKm(int kilometre, double litre) {
+    return (kilometre / litre);
+  }
+
   double yuzKilometreOrtalama() {
     if (arac.dorduncuyakitlitre == null) {
       return yuzKilometreOrtalamaYakitLitre(
@@ -95,30 +99,26 @@ class Hesaplamalar {
   }
 
   String geneldeAlinanYakit() {
-    if (arac.dorduncukilometre == null) {
-      return arac.besinciyakitlitre.toStringAsFixed(0);
-    } else if (arac.ucuncukilometre == null) {
-      return ((arac.besinciyakitlitre + arac.dorduncuyakitlitre) / 2)
+    if (arac.dorduncuFiyat == null) {
+      return arac.besinciLitre.toStringAsFixed(0);
+    } else if (arac.ucuncuFiyat == null) {
+      return ((arac.besinciLitre + arac.dorduncuLitre) / 2).toStringAsFixed(0);
+    } else if (arac.ikinciFiyat == null) {
+      return ((arac.besinciLitre + arac.dorduncuLitre + arac.ucuncuLitre) / 3)
           .toStringAsFixed(0);
-    } else if (arac.ikincikilometre == null) {
-      return ((arac.besinciyakitlitre +
-                  arac.dorduncuyakitlitre +
-                  arac.ucuncuyakitlitre) /
-              3)
-          .toStringAsFixed(0);
-    } else if (arac.birincikilometre == null) {
-      return ((arac.besinciyakitlitre +
-                  arac.dorduncuyakitlitre +
-                  arac.ucuncuyakitlitre +
-                  arac.ikinciyakitlitre) /
+    } else if (arac.birinciFiyat == null) {
+      return ((arac.besinciLitre +
+                  arac.dorduncuLitre +
+                  arac.ucuncuLitre +
+                  arac.ikinciLitre) /
               4)
           .toStringAsFixed(0);
     } else {
-      return ((arac.besinciyakitlitre +
-                  arac.dorduncuyakitlitre +
-                  arac.ucuncuyakitlitre +
-                  arac.ikinciyakitlitre +
-                  arac.birincikilometre) /
+      return ((arac.besinciLitre +
+                  arac.dorduncuLitre +
+                  arac.ucuncuLitre +
+                  arac.ikinciLitre +
+                  arac.birinciLitre) /
               5)
           .toStringAsFixed(0);
     }
@@ -126,33 +126,153 @@ class Hesaplamalar {
 
   String tahminiMenzil() {
     if (arac.dorduncukilometre == null) {
-      return arac.besincikilometre.toString();
+      return (arac.depohacmi *
+              litredeGidilenOrtalamaKm(
+                  arac.besincikilometre, arac.besinciyakitlitre))
+          .toStringAsFixed(0);
     } else if (arac.ucuncukilometre == null) {
-      return ((arac.besincikilometre + arac.dorduncukilometre) / 2)
+      return (arac.depohacmi *
+              ((litredeGidilenOrtalamaKm(
+                          arac.besincikilometre, arac.besinciyakitlitre) +
+                      litredeGidilenOrtalamaKm(
+                          arac.dorduncukilometre, arac.dorduncuyakitlitre)) /
+                  2))
           .toStringAsFixed(0);
     } else if (arac.ikincikilometre == null) {
-      return ((arac.besincikilometre +
-                  arac.dorduncukilometre +
-                  arac.ucuncukilometre) /
-              3)
+      return (arac.depohacmi *
+              ((litredeGidilenOrtalamaKm(
+                          arac.besincikilometre, arac.besinciyakitlitre) +
+                      litredeGidilenOrtalamaKm(
+                          arac.dorduncukilometre, arac.dorduncuyakitlitre) +
+                      litredeGidilenOrtalamaKm(
+                          arac.ucuncukilometre, arac.ucuncuyakitlitre)) /
+                  3))
           .toStringAsFixed(0);
     } else if (arac.birincikilometre == null) {
-      return ((arac.besincikilometre +
-                  arac.dorduncukilometre +
-                  arac.ucuncukilometre +
-                  arac.ikincikilometre) /
-              4)
+      return (arac.depohacmi *
+              ((litredeGidilenOrtalamaKm(
+                          arac.besincikilometre, arac.besinciyakitlitre) +
+                      litredeGidilenOrtalamaKm(
+                          arac.dorduncukilometre, arac.dorduncuyakitlitre) +
+                      litredeGidilenOrtalamaKm(
+                          arac.ucuncukilometre, arac.ucuncuyakitlitre) +
+                      litredeGidilenOrtalamaKm(
+                          arac.ikincikilometre, arac.ikinciyakitlitre)) /
+                  4))
           .toStringAsFixed(0);
     } else {
-      return ((arac.besincikilometre +
-                  arac.dorduncukilometre +
-                  arac.ucuncukilometre +
-                  arac.ikincikilometre +
-                  arac.birincikilometre) /
-              5)
+      return (arac.depohacmi *
+              ((litredeGidilenOrtalamaKm(
+                          arac.besincikilometre, arac.besinciyakitlitre) +
+                      litredeGidilenOrtalamaKm(
+                          arac.dorduncukilometre, arac.dorduncuyakitlitre) +
+                      litredeGidilenOrtalamaKm(
+                          arac.ucuncukilometre, arac.ucuncuyakitlitre) +
+                      litredeGidilenOrtalamaKm(
+                          arac.ikincikilometre, arac.ikinciyakitlitre) +
+                      litredeGidilenOrtalamaKm(
+                          arac.birincikilometre, arac.birinciyakitlitre)) /
+                  5))
           .toStringAsFixed(0);
     }
   }
 
-  int checkEngine() {}
+  double sonYakit() {
+    return (arac.besinciFiyat * arac.besinciLitre);
+  }
+
+  double yakit(int sira) {
+    if (sira == 1) {
+      return (arac.besinciFiyat * arac.besinciLitre);
+    } else if (sira == 2) {
+      return (arac.dorduncuFiyat * arac.dorduncuLitre);
+    } else if (sira == 3) {
+      return (arac.ucuncuFiyat * arac.ucuncuLitre);
+    } else if (sira == 4) {
+      return (arac.ikinciFiyat * arac.ikinciLitre);
+    } else {
+      return (arac.birinciFiyat * arac.birinciLitre);
+    }
+  }
+
+  double zamOrani() {
+    if ((arac.besinciFiyat - arac.dorduncuFiyat) >= 0) {
+      return ((arac.besinciFiyat / arac.dorduncuFiyat) * 100) - 100;
+    }
+    return (((arac.besinciFiyat / arac.dorduncuFiyat) * 100) - 100) * -1;
+  }
+
+  double zamMiktari() {
+    return (arac.besinciFiyat - arac.dorduncuFiyat);
+  }
+
+  int checkEngine() {
+    if (arac.motorhacmi <= 1.6 && arac.yakittipi == "dizel") {
+      double maksimumYakit = (yuzKilometreOrtalama() * (167.18 / 100));
+      if (yuzKilometreYakitLitre() > maksimumYakit) {
+        return 1;
+      } else {
+        return 0;
+      }
+    } else if (1.4 <= arac.motorhacmi &&
+        arac.motorhacmi <= 1.6 &&
+        arac.yakittipi == "benzin") {
+      double maksimumYakit = (yuzKilometreOrtalama() * (181.28 / 100));
+      if (yuzKilometreYakitLitre() > maksimumYakit) {
+        return 1;
+      } else {
+        return 0;
+      }
+    } else if (1.4 <= arac.motorhacmi &&
+        arac.motorhacmi <= 1.6 &&
+        arac.yakittipi == "lpg") {
+      double maksimumYakit = (yuzKilometreOrtalama() * (163.8 / 100));
+      if (yuzKilometreYakitLitre() > maksimumYakit) {
+        return 1;
+      } else {
+        return 0;
+      }
+    } else if (arac.motorhacmi < 1.4 && arac.yakittipi == "benzin") {
+      double maksimumYakit = (yuzKilometreOrtalama() * (186.4 / 100));
+      if (yuzKilometreYakitLitre() > maksimumYakit) {
+        return 1;
+      } else {
+        return 0;
+      }
+    } else if (arac.motorhacmi < 1.4 && arac.yakittipi == "lpg") {
+      double maksimumYakit = (yuzKilometreOrtalama() * (160.3 / 100));
+      if (yuzKilometreYakitLitre() > maksimumYakit) {
+        return 1;
+      } else {
+        return 0;
+      }
+    } else if (1.6 < arac.motorhacmi &&
+        arac.motorhacmi <= 2.0 &&
+        arac.yakittipi == "benzin") {
+      double maksimumYakit = (yuzKilometreOrtalama() * (190.9 / 100));
+      if (yuzKilometreYakitLitre() > maksimumYakit) {
+        return 1;
+      } else {
+        return 0;
+      }
+    } else if (1.6 < arac.motorhacmi &&
+        arac.motorhacmi <= 2.0 &&
+        arac.yakittipi == "lpg") {
+      double maksimumYakit = (yuzKilometreOrtalama() * (180.1 / 100));
+      if (yuzKilometreYakitLitre() > maksimumYakit) {
+        return 1;
+      } else {
+        return 0;
+      }
+    } else if (1.6 < arac.motorhacmi &&
+        arac.motorhacmi <= 2.0 &&
+        arac.yakittipi == "dizel") {
+      double maksimumYakit = (yuzKilometreOrtalama() * (174.7 / 100));
+      if (yuzKilometreYakitLitre() > maksimumYakit) {
+        return 1;
+      } else {
+        return 0;
+      }
+    }
+  }
 }

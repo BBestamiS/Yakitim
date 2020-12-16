@@ -184,12 +184,35 @@ class _AnaEkran extends State<AnaEkran> {
                           context: context,
                           builder: (_) => AlertDialog(
                             backgroundColor: Colors.white,
-                            content: Text(
-                              "Depo Tam Dolduruldu Mu?",
-                              style: TextStyle(
-                                  fontFamily: "GrotesklyYours",
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.bold),
+                            content: Container(
+                              height: 56,
+                              child: Column(
+                                children: [
+                                  Align(
+                                    alignment: Alignment.centerLeft,
+                                    child: GestureDetector(
+                                        onTap: () {
+                                          Navigator.of(context).pop();
+                                        },
+                                        child: Container(
+                                          width: 30,
+                                          height: 30,
+                                          decoration: BoxDecoration(
+                                              image: DecorationImage(
+                                            image: AssetImage(
+                                                "assets/images/backButton2.png"),
+                                          )),
+                                        )),
+                                  ),
+                                  Text(
+                                    "Depo Tam Dolduruldu Mu?",
+                                    style: TextStyle(
+                                        fontFamily: "GrotesklyYours",
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                ],
+                              ),
                             ),
                             actions: [
                               Row(
@@ -389,7 +412,9 @@ class Textt {
       return Container(
         margin: EdgeInsets.only(left: 10, right: 10),
         child: AutoSizeText(
-          "Son yakıt " + arac.besinciyakitfiyat.toStringAsFixed(2) + " TL",
+          "Son yakıt " +
+              Hesaplamalar(arac: arac).sonYakit().toStringAsFixed(2) +
+              " TL",
           style: TextStyle(fontFamily: "GrotesklyYours", fontSize: 40),
           maxLines: 2,
         ),
