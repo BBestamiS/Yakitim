@@ -1,4 +1,4 @@
-package com.example.yakitim
+package com.example.yakitimyenidatabase
 
 import io.flutter.embedding.android.FlutterActivity
 

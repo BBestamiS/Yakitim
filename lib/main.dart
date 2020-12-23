@@ -1,4 +1,6 @@
+import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/material.dart';
+import 'package:flare_splash_screen/flare_splash_screen.dart';
 import 'package:yakitim/database/database.dart';
 import 'package:yakitim/ekranlar/anaEkran.dart';
 import 'package:yakitim/ekranlar/bilgilendirme.dart';
@@ -13,7 +15,12 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return new MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: new MyHomePage(),
+      home: SplashScreen(
+        "assets/animations/splash.flr",
+        MyHomePage(),
+        startAnimation: "Yakitim",
+        backgroundColor: Color(0xff2C2C32),
+      ),
     );
   }
 }
@@ -42,13 +49,29 @@ class EkranSecimi extends StatelessWidget {
           if (this.ekransecim == 1) {
             return IlkYakitEkrani();
           } else if (this.ekransecim == 2) {
-            return AnaEkran();
+            return AnaEkran(
+              sayi: 1,
+            );
+            // return AnaEkran();
           } else {
             return Bilgilendirme();
           }
         } else {
-          return Center(
-            child: CircularProgressIndicator(),
+          return Container(
+            color: const Color(0xFF2C2C32),
+            child: Center(
+              child: AspectRatio(
+                aspectRatio: 1024 / 768,
+                child: Container(
+                  child: FlareActor(
+                    "assets/animations/splash.flr",
+                    alignment: Alignment.center,
+                    fit: BoxFit.contain,
+                    animation: "Bekleme",
+                  ),
+                ),
+              ),
+            ),
           );
         }
       },

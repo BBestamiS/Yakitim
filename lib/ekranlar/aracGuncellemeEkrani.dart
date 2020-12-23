@@ -1,7 +1,6 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:yakitim/database/database.dart';
-import 'package:yakitim/ekranlar/anaEkran.dart';
 import 'package:yakitim/ekranlar/araclarimEkrani.dart';
 import 'package:yakitim/modeller/arac.dart';
 import 'package:yakitim/modeller/secim.dart';

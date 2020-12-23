@@ -1,3 +1,4 @@
+import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/material.dart';
 import 'package:yakitim/database/database.dart';
 import 'package:yakitim/ekranlar/araclarimEkrani.dart';
@@ -28,17 +29,31 @@ class _IlkYakitEkrani extends State<IlkYakitEkrani> {
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: const Color(0xFF2C2C32),
-        body: SafeArea(
-            child: FutureBuilder(
-                future: aracFuture,
-                builder: (context, snapshot) {
-                  if (snapshot.connectionState == ConnectionState.done) {
-                    this.arac = snapshot.data;
-                    return yakitAlmaEkrani();
-                  } else {
-                    return Center(child: CircularProgressIndicator());
-                  }
-                })));
+        body: FutureBuilder(
+            future: aracFuture,
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.done) {
+                this.arac = snapshot.data;
+                return yakitAlmaEkrani();
+              } else {
+                return Container(
+                  color: const Color(0xFF2C2C32),
+                  child: Center(
+                    child: AspectRatio(
+                      aspectRatio: 1024 / 768,
+                      child: Container(
+                        child: FlareActor(
+                          "assets/animations/splash.flr",
+                          alignment: Alignment.center,
+                          fit: BoxFit.contain,
+                          animation: "Bekleme",
+                        ),
+                      ),
+                    ),
+                  ),
+                );
+              }
+            }));
 
     throw UnimplementedError();
   }

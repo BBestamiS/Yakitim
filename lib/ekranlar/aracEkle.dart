@@ -1,25 +1,25 @@
-import 'dart:math';
-
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:yakitim/database/database.dart';
-import 'package:yakitim/ekranlar/anaEkran.dart';
 import 'package:yakitim/ekranlar/araclarimEkrani.dart';
+import 'package:yakitim/ekranlar/bilgilendirme.dart';
 import 'package:yakitim/ekranlar/ilkYakitEkrani.dart';
 import 'package:yakitim/modeller/arac.dart';
 import 'package:yakitim/modeller/secim.dart';
 
 class AracEkle extends StatefulWidget {
+  int sayi;
+  AracEkle({this.sayi});
   @override
   _AracEkle createState() => _AracEkle();
 }
 
-class _AracEkle extends State {
+class _AracEkle extends State<AracEkle> {
+  var _formKey = GlobalKey<FormState>();
   Secim secim = new Secim();
   Future futureArac;
   DBHelper dbHelper;
   List<Arac> araclar = [];
-  bool _validate = false;
   Arac arac = new Arac();
   int yakitTipiDeger = 1;
   int motorHacmiDeger = 1;
@@ -87,513 +87,538 @@ class _AracEkle extends State {
                           ),
                         ),
                       ),
-                      Align(
-                        alignment: Alignment.centerLeft,
-                        child: GestureDetector(
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => Araclar(),
-                              ),
-                            );
-                          },
-                          child: Container(
-                            margin: EdgeInsets.only(top: 15, left: 10),
-                            height: 30,
-                            width: 30,
-                            child: Center(
-                              child: Image(
-                                image:
-                                    AssetImage("assets/images/backButton.png"),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
+                      geritusu(),
                     ],
                   ),
                 ),
-                Container(
-                  padding: EdgeInsets.only(top: 20.0, left: 20.0, right: 20.0),
-                  child: Column(
-                    children: <Widget>[
-                      Align(
-                        alignment: Alignment.centerLeft,
-                        child: Container(
-                          child: Text(
-                            "Markası",
-                            style: TextStyle(
-                              fontSize: 17,
-                              fontWeight: FontWeight.bold,
-                              fontFamily: "GrotesklyYours",
-                              color: Colors.white,
+                Form(
+                  key: _formKey,
+                  child: Padding(
+                    padding:
+                        EdgeInsets.only(top: 20.0, left: 20.0, right: 20.0),
+                    child: Column(
+                      children: <Widget>[
+                        Align(
+                          alignment: Alignment.centerLeft,
+                          child: Container(
+                            child: Text(
+                              "Markası",
+                              style: TextStyle(
+                                fontSize: 17,
+                                fontWeight: FontWeight.bold,
+                                fontFamily: "GrotesklyYours",
+                                color: Colors.white,
+                              ),
                             ),
                           ),
                         ),
-                      ),
-                      Container(
-                        height: 48,
-                        child: TextField(
-                          controller: _marka,
-                          decoration: InputDecoration(
-                            errorText: _validate ? "Bu Alan Boş Kalamaz" : null,
-                            contentPadding: EdgeInsets.only(left: 8, right: 8),
-                            filled: true,
-                            fillColor: Colors.grey[350],
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.all(
-                                Radius.circular(6),
+                        Container(
+                          height: 48,
+                          child: TextFormField(
+                            controller: _marka,
+                            validator: (String value) {
+                              if (value.isEmpty) {
+                                return "Bu alan boş kalamaz.";
+                              }
+                            },
+                            decoration: InputDecoration(
+                              contentPadding:
+                                  EdgeInsets.only(left: 8, right: 8),
+                              filled: true,
+                              fillColor: Colors.grey[350],
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.all(
+                                  Radius.circular(6),
+                                ),
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.all(
+                                  Radius.circular(6),
+                                ),
+                                borderSide: BorderSide.none,
                               ),
                             ),
-                            focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.all(
-                                Radius.circular(6),
-                              ),
-                              borderSide: BorderSide.none,
-                            ),
-                          ),
-                          cursorColor: Color(0xF93F32),
-                        ),
-                      ),
-                      Align(
-                        alignment: Alignment.centerLeft,
-                        child: Container(
-                          child: Text(
-                            "Modeli",
-                            style: TextStyle(
-                              fontSize: 17,
-                              fontWeight: FontWeight.bold,
-                              fontFamily: "GrotesklyYours",
-                              color: Colors.white,
-                            ),
+                            cursorColor: Color(0xF93F32),
                           ),
                         ),
-                      ),
-                      Container(
-                        height: 48,
-                        child: TextField(
-                          controller: _model,
-                          decoration: InputDecoration(
-                            contentPadding: EdgeInsets.only(left: 8, right: 8),
-                            filled: true,
-                            fillColor: Colors.grey[350],
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.all(
-                                Radius.circular(6),
+                        Align(
+                          alignment: Alignment.centerLeft,
+                          child: Container(
+                            child: Text(
+                              "Modeli",
+                              style: TextStyle(
+                                fontSize: 17,
+                                fontWeight: FontWeight.bold,
+                                fontFamily: "GrotesklyYours",
+                                color: Colors.white,
                               ),
-                            ),
-                            focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.all(
-                                Radius.circular(6),
-                              ),
-                              borderSide: BorderSide.none,
-                            ),
-                          ),
-                          cursorColor: Color(0xF93F32),
-                        ),
-                      ),
-                      Align(
-                        alignment: Alignment.centerLeft,
-                        child: Container(
-                          child: Text(
-                            "Plakası",
-                            style: TextStyle(
-                              fontSize: 17,
-                              fontWeight: FontWeight.bold,
-                              fontFamily: "GrotesklyYours",
-                              color: Colors.white,
                             ),
                           ),
                         ),
-                      ),
-                      Container(
-                        height: 48,
-                        child: TextField(
-                          controller: _plaka,
-                          decoration: InputDecoration(
-                            contentPadding: EdgeInsets.only(left: 8, right: 8),
-                            filled: true,
-                            fillColor: Colors.grey[350],
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.all(
-                                Radius.circular(6),
+                        Container(
+                          height: 48,
+                          child: TextFormField(
+                            controller: _model,
+                            validator: (String value) {
+                              if (value.isEmpty) {
+                                return "Bu alan boş kalamaz.";
+                              }
+                            },
+                            decoration: InputDecoration(
+                              contentPadding:
+                                  EdgeInsets.only(left: 8, right: 8),
+                              filled: true,
+                              fillColor: Colors.grey[350],
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.all(
+                                  Radius.circular(6),
+                                ),
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.all(
+                                  Radius.circular(6),
+                                ),
+                                borderSide: BorderSide.none,
                               ),
                             ),
-                            focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.all(
-                                Radius.circular(6),
-                              ),
-                              borderSide: BorderSide.none,
-                            ),
-                          ),
-                          cursorColor: Color(0xF93F32),
-                        ),
-                      ),
-                      Align(
-                        alignment: Alignment.centerLeft,
-                        child: Container(
-                          child: Text(
-                            "Kilometresi",
-                            style: TextStyle(
-                              fontSize: 17,
-                              fontWeight: FontWeight.bold,
-                              fontFamily: "GrotesklyYours",
-                              color: Colors.white,
-                            ),
+                            cursorColor: Color(0xF93F32),
                           ),
                         ),
-                      ),
-                      Container(
-                        height: 48,
-                        child: TextField(
-                          controller: _kilometresi,
-                          keyboardType: TextInputType.number,
-                          decoration: InputDecoration(
-                            contentPadding: EdgeInsets.only(left: 8, right: 8),
-                            filled: true,
-                            fillColor: Colors.grey[350],
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.all(
-                                Radius.circular(6),
+                        Align(
+                          alignment: Alignment.centerLeft,
+                          child: Container(
+                            child: Text(
+                              "Plakası",
+                              style: TextStyle(
+                                fontSize: 17,
+                                fontWeight: FontWeight.bold,
+                                fontFamily: "GrotesklyYours",
+                                color: Colors.white,
                               ),
-                            ),
-                            focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.all(
-                                Radius.circular(6),
-                              ),
-                              borderSide: BorderSide.none,
-                            ),
-                          ),
-                          cursorColor: Color(0xF93F32),
-                        ),
-                      ),
-                      Align(
-                        alignment: Alignment.centerLeft,
-                        child: Container(
-                          child: Text(
-                            "Depo Hacmi",
-                            style: TextStyle(
-                              fontSize: 17,
-                              fontWeight: FontWeight.bold,
-                              fontFamily: "GrotesklyYours",
-                              color: Colors.white,
                             ),
                           ),
                         ),
-                      ),
-                      Container(
-                        height: 48,
-                        child: TextField(
-                          controller: _depoHacmi,
-                          keyboardType: TextInputType.number,
-                          decoration: InputDecoration(
-                            contentPadding: EdgeInsets.only(left: 8, right: 8),
-                            filled: true,
-                            fillColor: Colors.grey[350],
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.all(
-                                Radius.circular(6),
+                        Container(
+                          height: 48,
+                          child: TextFormField(
+                            controller: _plaka,
+                            validator: (String value) {
+                              if (value.isEmpty) {
+                                return "Bu alan boş kalamaz.";
+                              }
+                            },
+                            decoration: InputDecoration(
+                              contentPadding:
+                                  EdgeInsets.only(left: 8, right: 8),
+                              filled: true,
+                              fillColor: Colors.grey[350],
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.all(
+                                  Radius.circular(6),
+                                ),
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.all(
+                                  Radius.circular(6),
+                                ),
+                                borderSide: BorderSide.none,
                               ),
                             ),
-                            focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.all(
-                                Radius.circular(6),
+                            cursorColor: Color(0xF93F32),
+                          ),
+                        ),
+                        Align(
+                          alignment: Alignment.centerLeft,
+                          child: Container(
+                            child: Text(
+                              "Kilometresi",
+                              style: TextStyle(
+                                fontSize: 17,
+                                fontWeight: FontWeight.bold,
+                                fontFamily: "GrotesklyYours",
+                                color: Colors.white,
                               ),
-                              borderSide: BorderSide.none,
                             ),
                           ),
-                          cursorColor: Color(0xF93F32),
                         ),
-                      ),
-                      Row(
-                        children: [
-                          Expanded(
-                            child: Container(
-                              margin: EdgeInsets.only(right: 7),
-                              child: Column(
-                                children: [
-                                  Align(
-                                    alignment: Alignment.centerLeft,
-                                    child: Container(
-                                      child: Text(
-                                        "Motor Hacmi",
-                                        style: TextStyle(
-                                          fontSize: 17,
-                                          fontWeight: FontWeight.bold,
-                                          fontFamily: "GrotesklyYours",
-                                          color: Colors.white,
+                        Container(
+                          height: 48,
+                          child: TextFormField(
+                            controller: _kilometresi,
+                            validator: (String value) {
+                              if (value.isEmpty) {
+                                return "Bu alan boş kalamaz.";
+                              }
+                            },
+                            keyboardType: TextInputType.number,
+                            decoration: InputDecoration(
+                              contentPadding:
+                                  EdgeInsets.only(left: 8, right: 8),
+                              filled: true,
+                              fillColor: Colors.grey[350],
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.all(
+                                  Radius.circular(6),
+                                ),
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.all(
+                                  Radius.circular(6),
+                                ),
+                                borderSide: BorderSide.none,
+                              ),
+                            ),
+                            cursorColor: Color(0xF93F32),
+                          ),
+                        ),
+                        Align(
+                          alignment: Alignment.centerLeft,
+                          child: Container(
+                            child: Text(
+                              "Depo Hacmi",
+                              style: TextStyle(
+                                fontSize: 17,
+                                fontWeight: FontWeight.bold,
+                                fontFamily: "GrotesklyYours",
+                                color: Colors.white,
+                              ),
+                            ),
+                          ),
+                        ),
+                        Container(
+                          height: 48,
+                          child: TextFormField(
+                            controller: _depoHacmi,
+                            validator: (String value) {
+                              if (value.isEmpty) {
+                                return "Bu alan boş kalamaz.";
+                              }
+                            },
+                            keyboardType: TextInputType.number,
+                            decoration: InputDecoration(
+                              contentPadding:
+                                  EdgeInsets.only(left: 8, right: 8),
+                              filled: true,
+                              fillColor: Colors.grey[350],
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.all(
+                                  Radius.circular(6),
+                                ),
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.all(
+                                  Radius.circular(6),
+                                ),
+                                borderSide: BorderSide.none,
+                              ),
+                            ),
+                            cursorColor: Color(0xF93F32),
+                          ),
+                        ),
+                        Row(
+                          children: [
+                            Expanded(
+                              child: Container(
+                                margin: EdgeInsets.only(right: 7),
+                                child: Column(
+                                  children: [
+                                    Align(
+                                      alignment: Alignment.centerLeft,
+                                      child: Container(
+                                        child: Text(
+                                          "Motor Hacmi",
+                                          style: TextStyle(
+                                            fontSize: 17,
+                                            fontWeight: FontWeight.bold,
+                                            fontFamily: "GrotesklyYours",
+                                            color: Colors.white,
+                                          ),
                                         ),
                                       ),
                                     ),
-                                  ),
-                                  Align(
-                                    alignment: Alignment.centerLeft,
-                                    child: Container(
-                                      width: 1000,
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(6),
-                                        color: Colors.grey[350],
-                                      ),
-                                      child: DropdownButtonHideUnderline(
-                                        child: DropdownButton(
-                                            value: motorHacmiDeger,
-                                            items: [
-                                              DropdownMenuItem(
-                                                  child: Container(
-                                                      margin: EdgeInsets.only(
-                                                          left: 10),
-                                                      child: Text(
-                                                        "1.0 Litre",
-                                                        style: TextStyle(
-                                                            color: Colors.black,
-                                                            fontFamily:
-                                                                "GrotesklyYours",
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .bold),
-                                                      )),
-                                                  value: 2),
-                                              DropdownMenuItem(
-                                                  child: Container(
-                                                      margin: EdgeInsets.only(
-                                                          left: 10),
-                                                      child: Text(
-                                                        "1.2 Litre",
-                                                        style: TextStyle(
-                                                            color: Colors.black,
-                                                            fontFamily:
-                                                                "GrotesklyYours",
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .bold),
-                                                      )),
-                                                  value: 6),
-                                              DropdownMenuItem(
-                                                  child: Container(
-                                                      margin: EdgeInsets.only(
-                                                          left: 10),
-                                                      child: Text(
-                                                        "1.3 Litre",
-                                                        style: TextStyle(
-                                                            color: Colors.black,
-                                                            fontFamily:
-                                                                "GrotesklyYours",
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .bold),
-                                                      )),
-                                                  value: 3),
-                                              DropdownMenuItem(
-                                                  child: Container(
-                                                      margin: EdgeInsets.only(
-                                                          left: 10),
-                                                      child: Text(
-                                                        "1.4 Litre",
-                                                        style: TextStyle(
-                                                            color: Colors.black,
-                                                            fontFamily:
-                                                                "GrotesklyYours",
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .bold),
-                                                      )),
-                                                  value: 4),
-                                              DropdownMenuItem(
-                                                  child: Container(
-                                                      margin: EdgeInsets.only(
-                                                          left: 10),
-                                                      child: Text(
-                                                        "1.5 Litre",
-                                                        style: TextStyle(
-                                                            color: Colors.black,
-                                                            fontFamily:
-                                                                "GrotesklyYours",
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .bold),
-                                                      )),
-                                                  value: 5),
-                                              DropdownMenuItem(
-                                                  child: Container(
-                                                      margin: EdgeInsets.only(
-                                                          left: 10),
-                                                      child: Text(
-                                                        "1.6 Litre",
-                                                        style: TextStyle(
-                                                            color: Colors.black,
-                                                            fontFamily:
-                                                                "GrotesklyYours",
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .bold),
-                                                      )),
-                                                  value: 1),
-                                              DropdownMenuItem(
-                                                  child: Container(
-                                                      margin: EdgeInsets.only(
-                                                          left: 10),
-                                                      child: Text(
-                                                        "1.7 Litre",
-                                                        style: TextStyle(
-                                                            color: Colors.black,
-                                                            fontFamily:
-                                                                "GrotesklyYours",
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .bold),
-                                                      )),
-                                                  value: 7),
-                                              DropdownMenuItem(
-                                                  child: Container(
-                                                      margin: EdgeInsets.only(
-                                                          left: 10),
-                                                      child: Text(
-                                                        "1.8 Litre",
-                                                        style: TextStyle(
-                                                            color: Colors.black,
-                                                            fontFamily:
-                                                                "GrotesklyYours",
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .bold),
-                                                      )),
-                                                  value: 8),
-                                              DropdownMenuItem(
-                                                  child: Container(
-                                                      margin: EdgeInsets.only(
-                                                          left: 10),
-                                                      child: Text(
-                                                        "1.9 Litre",
-                                                        style: TextStyle(
-                                                            color: Colors.black,
-                                                            fontFamily:
-                                                                "GrotesklyYours",
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .bold),
-                                                      )),
-                                                  value: 9),
-                                              DropdownMenuItem(
-                                                  child: Container(
-                                                      margin: EdgeInsets.only(
-                                                          left: 10),
-                                                      child: Text(
-                                                        "2.0 Litre",
-                                                        style: TextStyle(
-                                                            color: Colors.black,
-                                                            fontFamily:
-                                                                "GrotesklyYours",
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .bold),
-                                                      )),
-                                                  value: 10),
-                                            ],
-                                            onChanged: (value) {
-                                              setState(() {
-                                                motorHacmiDeger = value;
-                                              });
-                                            }),
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                          Expanded(
-                            child: Container(
-                              margin: EdgeInsets.only(left: 7),
-                              child: Column(
-                                children: [
-                                  Align(
-                                    alignment: Alignment.centerLeft,
-                                    child: Container(
-                                      child: Text(
-                                        "Yakıt Tipi",
-                                        style: TextStyle(
-                                          fontSize: 17,
-                                          fontWeight: FontWeight.bold,
-                                          fontFamily: "GrotesklyYours",
-                                          color: Colors.white,
+                                    Align(
+                                      alignment: Alignment.centerLeft,
+                                      child: Container(
+                                        width: 1000,
+                                        decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(6),
+                                          color: Colors.grey[350],
+                                        ),
+                                        child: DropdownButtonHideUnderline(
+                                          child: DropdownButton(
+                                              value: motorHacmiDeger,
+                                              items: [
+                                                DropdownMenuItem(
+                                                    child: Container(
+                                                        margin: EdgeInsets.only(
+                                                            left: 10),
+                                                        child: Text(
+                                                          "1.0 Litre",
+                                                          style: TextStyle(
+                                                              color:
+                                                                  Colors.black,
+                                                              fontFamily:
+                                                                  "GrotesklyYours",
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold),
+                                                        )),
+                                                    value: 2),
+                                                DropdownMenuItem(
+                                                    child: Container(
+                                                        margin: EdgeInsets.only(
+                                                            left: 10),
+                                                        child: Text(
+                                                          "1.2 Litre",
+                                                          style: TextStyle(
+                                                              color:
+                                                                  Colors.black,
+                                                              fontFamily:
+                                                                  "GrotesklyYours",
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold),
+                                                        )),
+                                                    value: 6),
+                                                DropdownMenuItem(
+                                                    child: Container(
+                                                        margin: EdgeInsets.only(
+                                                            left: 10),
+                                                        child: Text(
+                                                          "1.3 Litre",
+                                                          style: TextStyle(
+                                                              color:
+                                                                  Colors.black,
+                                                              fontFamily:
+                                                                  "GrotesklyYours",
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold),
+                                                        )),
+                                                    value: 3),
+                                                DropdownMenuItem(
+                                                    child: Container(
+                                                        margin: EdgeInsets.only(
+                                                            left: 10),
+                                                        child: Text(
+                                                          "1.4 Litre",
+                                                          style: TextStyle(
+                                                              color:
+                                                                  Colors.black,
+                                                              fontFamily:
+                                                                  "GrotesklyYours",
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold),
+                                                        )),
+                                                    value: 4),
+                                                DropdownMenuItem(
+                                                    child: Container(
+                                                        margin: EdgeInsets.only(
+                                                            left: 10),
+                                                        child: Text(
+                                                          "1.5 Litre",
+                                                          style: TextStyle(
+                                                              color:
+                                                                  Colors.black,
+                                                              fontFamily:
+                                                                  "GrotesklyYours",
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold),
+                                                        )),
+                                                    value: 5),
+                                                DropdownMenuItem(
+                                                    child: Container(
+                                                        margin: EdgeInsets.only(
+                                                            left: 10),
+                                                        child: Text(
+                                                          "1.6 Litre",
+                                                          style: TextStyle(
+                                                              color:
+                                                                  Colors.black,
+                                                              fontFamily:
+                                                                  "GrotesklyYours",
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold),
+                                                        )),
+                                                    value: 1),
+                                                DropdownMenuItem(
+                                                    child: Container(
+                                                        margin: EdgeInsets.only(
+                                                            left: 10),
+                                                        child: Text(
+                                                          "1.7 Litre",
+                                                          style: TextStyle(
+                                                              color:
+                                                                  Colors.black,
+                                                              fontFamily:
+                                                                  "GrotesklyYours",
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold),
+                                                        )),
+                                                    value: 7),
+                                                DropdownMenuItem(
+                                                    child: Container(
+                                                        margin: EdgeInsets.only(
+                                                            left: 10),
+                                                        child: Text(
+                                                          "1.8 Litre",
+                                                          style: TextStyle(
+                                                              color:
+                                                                  Colors.black,
+                                                              fontFamily:
+                                                                  "GrotesklyYours",
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold),
+                                                        )),
+                                                    value: 8),
+                                                DropdownMenuItem(
+                                                    child: Container(
+                                                        margin: EdgeInsets.only(
+                                                            left: 10),
+                                                        child: Text(
+                                                          "1.9 Litre",
+                                                          style: TextStyle(
+                                                              color:
+                                                                  Colors.black,
+                                                              fontFamily:
+                                                                  "GrotesklyYours",
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold),
+                                                        )),
+                                                    value: 9),
+                                                DropdownMenuItem(
+                                                    child: Container(
+                                                        margin: EdgeInsets.only(
+                                                            left: 10),
+                                                        child: Text(
+                                                          "2.0 Litre",
+                                                          style: TextStyle(
+                                                              color:
+                                                                  Colors.black,
+                                                              fontFamily:
+                                                                  "GrotesklyYours",
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold),
+                                                        )),
+                                                    value: 10),
+                                              ],
+                                              onChanged: (value) {
+                                                setState(() {
+                                                  motorHacmiDeger = value;
+                                                });
+                                              }),
                                         ),
                                       ),
                                     ),
-                                  ),
-                                  Align(
-                                    alignment: Alignment.centerLeft,
-                                    child: Container(
-                                      width: 1000,
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(6),
-                                        color: Colors.grey[350],
-                                      ),
-                                      child: DropdownButtonHideUnderline(
-                                        child: DropdownButton(
-                                            value: yakitTipiDeger,
-                                            items: [
-                                              DropdownMenuItem(
-                                                  child: Container(
-                                                      margin: EdgeInsets.only(
-                                                          left: 10),
-                                                      child: Text(
-                                                        "Dizel",
-                                                        style: TextStyle(
-                                                            color: Colors.black,
-                                                            fontFamily:
-                                                                "GrotesklyYours",
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .bold),
-                                                      )),
-                                                  value: 2),
-                                              DropdownMenuItem(
-                                                  child: Container(
-                                                      margin: EdgeInsets.only(
-                                                          left: 10),
-                                                      child: Text(
-                                                        "Benzin",
-                                                        style: TextStyle(
-                                                            color: Colors.black,
-                                                            fontFamily:
-                                                                "GrotesklyYours",
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .bold),
-                                                      )),
-                                                  value: 1),
-                                              DropdownMenuItem(
-                                                  child: Container(
-                                                      margin: EdgeInsets.only(
-                                                          left: 10),
-                                                      child: Text(
-                                                        "LPG",
-                                                        style: TextStyle(
-                                                            color: Colors.black,
-                                                            fontFamily:
-                                                                "GrotesklyYours",
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .bold),
-                                                      )),
-                                                  value: 3),
-                                            ],
-                                            onChanged: (value) {
-                                              setState(() {
-                                                yakitTipiDeger = value;
-                                              });
-                                            }),
-                                      ),
-                                    ),
-                                  ),
-                                ],
+                                  ],
+                                ),
                               ),
                             ),
-                          ),
-                        ],
-                      )
-                    ],
+                            Expanded(
+                              child: Container(
+                                margin: EdgeInsets.only(left: 7),
+                                child: Column(
+                                  children: [
+                                    Align(
+                                      alignment: Alignment.centerLeft,
+                                      child: Container(
+                                        child: Text(
+                                          "Yakıt Tipi",
+                                          style: TextStyle(
+                                            fontSize: 17,
+                                            fontWeight: FontWeight.bold,
+                                            fontFamily: "GrotesklyYours",
+                                            color: Colors.white,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    Align(
+                                      alignment: Alignment.centerLeft,
+                                      child: Container(
+                                        width: 1000,
+                                        decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(6),
+                                          color: Colors.grey[350],
+                                        ),
+                                        child: DropdownButtonHideUnderline(
+                                          child: DropdownButton(
+                                              value: yakitTipiDeger,
+                                              items: [
+                                                DropdownMenuItem(
+                                                    child: Container(
+                                                        margin: EdgeInsets.only(
+                                                            left: 10),
+                                                        child: Text(
+                                                          "Dizel",
+                                                          style: TextStyle(
+                                                              color:
+                                                                  Colors.black,
+                                                              fontFamily:
+                                                                  "GrotesklyYours",
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold),
+                                                        )),
+                                                    value: 2),
+                                                DropdownMenuItem(
+                                                    child: Container(
+                                                        margin: EdgeInsets.only(
+                                                            left: 10),
+                                                        child: Text(
+                                                          "Benzin",
+                                                          style: TextStyle(
+                                                              color:
+                                                                  Colors.black,
+                                                              fontFamily:
+                                                                  "GrotesklyYours",
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold),
+                                                        )),
+                                                    value: 1),
+                                                DropdownMenuItem(
+                                                    child: Container(
+                                                        margin: EdgeInsets.only(
+                                                            left: 10),
+                                                        child: Text(
+                                                          "LPG",
+                                                          style: TextStyle(
+                                                              color:
+                                                                  Colors.black,
+                                                              fontFamily:
+                                                                  "GrotesklyYours",
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold),
+                                                        )),
+                                                    value: 3),
+                                              ],
+                                              onChanged: (value) {
+                                                setState(() {
+                                                  yakitTipiDeger = value;
+                                                });
+                                              }),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ],
+                        )
+                      ],
+                    ),
                   ),
                 ),
               ],
@@ -601,45 +626,47 @@ class _AracEkle extends State {
             GestureDetector(
               onTap: () {
                 setState(() {
-                  if (this.araclar.isEmpty) {
-                    this.arac.marka = _marka.text;
-                    this.arac.model = _model.text;
-                    this.arac.plaka = _plaka.text;
-                    this.arac.kilometre = int.parse(_kilometresi.text);
-                    this.arac.yakittipi = yakiTipiSecim(yakitTipiDeger);
-                    this.arac.depohacmi = int.parse(_depoHacmi.text);
-                    this.arac.motorhacmi = motorHacmiSecim(motorHacmiDeger);
-                    this.arac.sonkilometre = int.parse(_kilometresi.text);
-                    this.arac.toplamlira = 0;
-                    this.arac.toplamlitre = 0;
+                  if (_formKey.currentState.validate()) {
+                    if (this.araclar.isEmpty) {
+                      this.arac.marka = _marka.text;
+                      this.arac.model = _model.text;
+                      this.arac.plaka = _plaka.text;
+                      this.arac.kilometre = int.parse(_kilometresi.text);
+                      this.arac.yakittipi = yakiTipiSecim(yakitTipiDeger);
+                      this.arac.depohacmi = int.parse(_depoHacmi.text);
+                      this.arac.motorhacmi = motorHacmiSecim(motorHacmiDeger);
+                      this.arac.sonkilometre = int.parse(_kilometresi.text);
+                      this.arac.toplamlira = 0;
+                      this.arac.toplamlitre = 0;
 
-                    secim.secim = 1;
-                    dbHelper.aracEkle(this.arac);
-                    dbHelper.secimEkle(secim);
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => IlkYakitEkrani(),
-                      ),
-                    );
-                  } else {
-                    this.arac.marka = _marka.text;
-                    this.arac.model = _model.text;
-                    this.arac.plaka = _plaka.text;
-                    this.arac.kilometre = int.parse(_kilometresi.text);
-                    this.arac.yakittipi = yakiTipiSecim(yakitTipiDeger);
-                    this.arac.depohacmi = int.parse(_depoHacmi.text);
-                    this.arac.motorhacmi = motorHacmiSecim(motorHacmiDeger);
-                    this.arac.sonkilometre = int.parse(_kilometresi.text);
-                    this.arac.toplamlira = 0;
-                    this.arac.toplamlitre = 0;
-                    dbHelper.aracEkle(this.arac);
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => Araclar(),
-                      ),
-                    );
+                      secim.secim = 1;
+                      dbHelper.aracEkle(this.arac);
+                      dbHelper.secimEkle(secim);
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => IlkYakitEkrani(),
+                        ),
+                      );
+                    } else {
+                      this.arac.marka = _marka.text;
+                      this.arac.model = _model.text;
+                      this.arac.plaka = _plaka.text;
+                      this.arac.kilometre = int.parse(_kilometresi.text);
+                      this.arac.yakittipi = yakiTipiSecim(yakitTipiDeger);
+                      this.arac.depohacmi = int.parse(_depoHacmi.text);
+                      this.arac.motorhacmi = motorHacmiSecim(motorHacmiDeger);
+                      this.arac.sonkilometre = int.parse(_kilometresi.text);
+                      this.arac.toplamlira = 0;
+                      this.arac.toplamlitre = 0;
+                      dbHelper.aracEkle(this.arac);
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => Araclar(),
+                        ),
+                      );
+                    }
                   }
                 });
               },
@@ -664,6 +691,60 @@ class _AracEkle extends State {
         ),
       ),
     );
+  }
+
+  geritusu() {
+    if (widget.sayi == 1) {
+      return Align(
+        alignment: Alignment.centerLeft,
+        child: GestureDetector(
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => Bilgilendirme(
+                  sayi: 1,
+                ),
+              ),
+            );
+          },
+          child: Container(
+            margin: EdgeInsets.only(top: 15, left: 10),
+            height: 30,
+            width: 30,
+            child: Center(
+              child: Image(
+                image: AssetImage("assets/images/backButton.png"),
+              ),
+            ),
+          ),
+        ),
+      );
+    } else {
+      return Align(
+        alignment: Alignment.centerLeft,
+        child: GestureDetector(
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => Araclar(),
+              ),
+            );
+          },
+          child: Container(
+            margin: EdgeInsets.only(top: 15, left: 10),
+            height: 30,
+            width: 30,
+            child: Center(
+              child: Image(
+                image: AssetImage("assets/images/backButton.png"),
+              ),
+            ),
+          ),
+        ),
+      );
+    }
   }
 
   String yakiTipiSecim(int deger) {
