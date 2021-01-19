@@ -22,45 +22,45 @@ class _YakitEkrani2State extends State<YakitEkrani2> {
 
     return Scaffold(
       backgroundColor: const Color(0xFFFFFC400), //0xFF9ad3bc
-      body: SafeArea(
-        child: Stack(
-          children: [
-            Align(
-              alignment: Alignment.bottomCenter,
-              child: Row(
-                children: [
-                  Expanded(
-                    child: Container(
-                      height: 3,
+      body: Stack(
+        children: [
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: Row(
+              children: [
+                Expanded(
+                  child: Container(
+                    height: 3,
+                  ),
+                ),
+                Expanded(
+                  child: Container(
+                    height: 3,
+                    margin: EdgeInsets.only(
+                      left: 5,
+                      right: 5,
+                    ),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(20),
+                      boxShadow: [
+                        BoxShadow(
+                            color: const Color(0xFF2C2C32),
+                            blurRadius: 7.0,
+                            spreadRadius: 7.0)
+                      ],
                     ),
                   ),
-                  Expanded(
-                    child: Container(
-                      height: 3,
-                      margin: EdgeInsets.only(
-                        left: 5,
-                        right: 5,
-                      ),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(20),
-                        boxShadow: [
-                          BoxShadow(
-                              color: const Color(0xFF2C2C32),
-                              blurRadius: 7.0,
-                              spreadRadius: 7.0)
-                        ],
-                      ),
-                    ),
+                ),
+                Expanded(
+                  child: Container(
+                    height: 3,
                   ),
-                  Expanded(
-                    child: Container(
-                      height: 3,
-                    ),
-                  ),
-                ],
-              ),
+                ),
+              ],
             ),
-            Column(
+          ),
+          SafeArea(
+            child: Column(
               children: [
                 Align(
                   alignment: Alignment.topCenter,
@@ -122,6 +122,13 @@ class _YakitEkrani2State extends State<YakitEkrani2> {
                               _bilgiler.bilgiler(
                                   arac.besinciLitre.toStringAsFixed(1),
                                   " Litre Son Alınan Yakıt"),
+                              _bilgiler.bilgiler(
+                                  ((Hesaplamalar(arac: widget.arac)
+                                                  .yuzKilometreOrtalama() /
+                                              100) *
+                                          arac.kilometre)
+                                      .toStringAsFixed(1),
+                                  " Litre Toplam Alınan Yakıt"),
                               Expanded(child: Container()),
                               Expanded(child: Container()),
                             ],
@@ -133,8 +140,8 @@ class _YakitEkrani2State extends State<YakitEkrani2> {
                 )
               ],
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
     throw UnimplementedError();

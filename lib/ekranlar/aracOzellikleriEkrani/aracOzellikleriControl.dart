@@ -60,21 +60,19 @@ class _AracOzellikleriControlState extends State<AracOzellikleriControl> {
     SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
     return Scaffold(
       backgroundColor: Colors.transparent,
-      body: SafeArea(
-        child: PageView(
-          controller: controller,
-          children: [
-            YakitEkrani1(
-              arac: widget.arac,
-            ),
-            AracOzellikleriEkrani2(
-              arac: widget.arac,
-            ),
-            MaliyetEkrani3(
-              arac: widget.arac,
-            ),
-          ],
-        ),
+      body: PageView(
+        controller: controller,
+        children: [
+          YakitEkrani1(
+            arac: widget.arac,
+          ),
+          AracOzellikleriEkrani2(
+            arac: widget.arac,
+          ),
+          MaliyetEkrani3(
+            arac: widget.arac,
+          ),
+        ],
       ),
     );
     throw UnimplementedError();
@@ -96,18 +94,16 @@ class _YakitEkrani1State extends State<YakitEkrani1> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
-        child: PageView(
-          scrollDirection: Axis.vertical,
-          children: [
-            YakitEkrani2(
-              arac: widget.arac,
-            ),
-            YakitEkrani3(
-              arac: widget.arac,
-            ),
-          ],
-        ),
+      body: PageView(
+        scrollDirection: Axis.vertical,
+        children: [
+          YakitEkrani2(
+            arac: widget.arac,
+          ),
+          YakitEkrani3(
+            arac: widget.arac,
+          ),
+        ],
       ),
     );
     throw UnimplementedError();
@@ -129,18 +125,16 @@ class _MaliyetEkrani3State extends State<MaliyetEkrani3> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
-        child: PageView(
-          scrollDirection: Axis.vertical,
-          children: [
-            MaliyetEkrani4(
-              arac: widget.arac,
-            ),
-            MaliyetEkrani5(
-              arac: widget.arac,
-            ),
-          ],
-        ),
+      body: PageView(
+        scrollDirection: Axis.vertical,
+        children: [
+          MaliyetEkrani4(
+            arac: widget.arac,
+          ),
+          MaliyetEkrani5(
+            arac: widget.arac,
+          ),
+        ],
       ),
     );
     throw UnimplementedError();

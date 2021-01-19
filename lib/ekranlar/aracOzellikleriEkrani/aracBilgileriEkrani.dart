@@ -381,7 +381,7 @@ class _AracOzellikleriEkrani2State extends State<AracOzellikleriEkrani2> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => AnaEkran(),
+                      builder: (context) => AnaEkranGecis(),
                     ),
                   );
                 },

@@ -1,6 +1,7 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:yakitim/ekranlar/anaEkran.dart';
 
 class Gelistirici extends StatefulWidget {
   @override
@@ -18,6 +19,28 @@ class _Gelistirici extends State<Gelistirici> {
           children: [
             Stack(
               children: [
+                Align(
+                  alignment: Alignment.topRight,
+                  child: GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => AnaEkranGecis(),
+                        ),
+                      );
+                    },
+                    child: Container(
+                      margin: EdgeInsets.only(right: 25, top: 50),
+                      width: 30,
+                      height: 30,
+                      decoration: BoxDecoration(
+                          image: DecorationImage(
+                        image: AssetImage("assets/images/backButton.png"),
+                      )),
+                    ),
+                  ),
+                ),
                 Container(
                   margin: EdgeInsets.only(left: 20),
                   child: Stack(
@@ -301,7 +324,6 @@ class _Gelistirici extends State<Gelistirici> {
                           ),
                         ),
                       ),
-                      Container()
                     ],
                   ),
                 ),

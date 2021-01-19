@@ -113,7 +113,7 @@ class _Araclar extends State<Araclar> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => AnaEkran(),
+                            builder: (context) => AnaEkranGecis(),
                           ));
                     }
                   },

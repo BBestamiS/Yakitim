@@ -640,6 +640,11 @@ class _AracEkle extends State<AracEkle> {
                       this.arac.toplamlitre = 0;
 
                       secim.secim = 1;
+                      secim.birinciEkran = "yuzKilometre";
+                      secim.ikinciEkran = "liraKilometre";
+                      secim.ucunucuEkran = "sonYakit";
+                      secim.dordunucuEkran = "aracKilometre";
+                      secim.kontrol = 4;
                       dbHelper.aracEkle(this.arac);
                       dbHelper.secimEkle(secim);
                       Navigator.push(
@@ -659,6 +664,7 @@ class _AracEkle extends State<AracEkle> {
                       this.arac.sonkilometre = int.parse(_kilometresi.text);
                       this.arac.toplamlira = 0;
                       this.arac.toplamlitre = 0;
+
                       dbHelper.aracEkle(this.arac);
                       Navigator.push(
                         context,

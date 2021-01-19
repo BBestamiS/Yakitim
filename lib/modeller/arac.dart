@@ -7,6 +7,7 @@ class Arac {
   String yakittipi;
   int depohacmi;
   double motorhacmi;
+  int aracinyili;
   double birinciyakitfiyat;
   double birinciyakitlitre;
   int birincikilometre;
@@ -86,6 +87,7 @@ class Arac {
       'dorduncuLitre': dorduncuLitre,
       'besinciLitre': besinciLitre,
       'motorisigi': motorisigi,
+      'aracinyili': aracinyili,
     };
     return map;
   }
@@ -99,6 +101,7 @@ class Arac {
     yakittipi = map['yakittipi'];
     depohacmi = map['depohacmi'];
     motorhacmi = map['motorhacmi'];
+    aracinyili = map['aracinyili'];
     birinciyakitfiyat = map['birinciyakitfiyat'];
     birinciyakitlitre = map['birinciyakitlitre'];
     birincikilometre = map['birincikilometre'];

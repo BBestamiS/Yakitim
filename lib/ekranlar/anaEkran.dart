@@ -4,14 +4,54 @@ import 'package:flutter/material.dart';
 import 'package:yakitim/database/database.dart';
 import 'package:yakitim/ekranlar/aracOzellikleriEkrani/aracOzellikleriControl.dart';
 import 'package:yakitim/ekranlar/araclarimEkrani.dart';
+import 'package:yakitim/ekranlar/ayarlarEkrani.dart';
 import 'package:yakitim/ekranlar/gelistirici.dart';
 import 'package:yakitim/ekranlar/yakitAldim.dart';
 import 'package:yakitim/hesaplamalar/hesaplamalar.dart';
 import 'package:yakitim/modeller/arac.dart';
+import 'package:yakitim/modeller/secim.dart';
+
+class AnaEkranGecis extends StatelessWidget {
+  Secim secim;
+  @override
+  Widget build(BuildContext context) {
+    return FutureBuilder(
+      future: DBHelper().getSecim(),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.done) {
+          this.secim = snapshot.data;
+          return AnaEkran(
+            secim: this.secim,
+            sayi: 1,
+          );
+        } else {
+          return Container(
+            color: const Color(0xFF2C2C32),
+            child: Center(
+              child: AspectRatio(
+                aspectRatio: 1024 / 768,
+                child: Container(
+                  child: FlareActor(
+                    "assets/animations/splash.flr",
+                    alignment: Alignment.center,
+                    fit: BoxFit.contain,
+                    animation: "Bekleme",
+                  ),
+                ),
+              ),
+            ),
+          );
+        }
+      },
+    );
+    throw UnimplementedError();
+  }
+}
 
 class AnaEkran extends StatefulWidget {
+  Secim secim;
   int sayi;
-  AnaEkran({this.sayi});
+  AnaEkran({this.sayi, this.secim});
   @override
   _AnaEkran createState() => _AnaEkran();
 }
@@ -45,7 +85,7 @@ class _AnaEkran extends State<AnaEkran> {
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.done) {
                 this.arac = snapshot.data;
-                yazi = textt.text(this.yaziSayac, arac);
+                yazi = textt.text(widget.secim, this.yaziSayac, arac);
                 return anaEkran();
               } else {
                 if (widget.sayi == 1) {
@@ -146,6 +186,14 @@ class _AnaEkran extends State<AnaEkran> {
                 child: AspectRatio(
                   aspectRatio: 3 / 3,
                   child: GestureDetector(
+                    onLongPress: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => AyarlarEkrani(),
+                        ),
+                      );
+                    },
                     onTapDown: (details) {
                       setState(() {
                         this.buton = button2();
@@ -153,12 +201,14 @@ class _AnaEkran extends State<AnaEkran> {
                     },
                     onTapUp: (details) {
                       setState(() {
-                        if (this.yaziSayac <= 3) {
-                          this.yazi = textt.text(++this.yaziSayac, arac);
+                        if (this.yaziSayac <= (widget.secim.kontrol - 1)) {
+                          this.yazi =
+                              textt.text(widget.secim, ++this.yaziSayac, arac);
                           this.buton = button1();
                         } else {
                           this.yaziSayac = 0;
-                          this.yazi = textt.text(++this.yaziSayac, arac);
+                          this.yazi =
+                              textt.text(widget.secim, ++this.yaziSayac, arac);
                           this.buton = button1();
                         }
                       });
@@ -408,8 +458,112 @@ button2() {
 }
 
 class Textt {
-  text(int yaziSayac, Arac arac) {
-    if (yaziSayac == 1) {
+  text(Secim secim, int yaziSayac, Arac arac) {
+    if (secim.kontrol == 1) {
+      if (secim.birinciEkran != null) {
+        return yaziSecim(secim.birinciEkran, arac);
+      } else if (secim.ikinciEkran != null) {
+        return yaziSecim(secim.ikinciEkran, arac);
+      } else if (secim.ucunucuEkran != null) {
+        return yaziSecim(secim.ucunucuEkran, arac);
+      } else if (secim.dordunucuEkran != null) {
+        return yaziSecim(secim.dordunucuEkran, arac);
+      }
+    } else if (secim.kontrol == 2) {
+      if (secim.birinciEkran != null && secim.ikinciEkran != null) {
+        if (yaziSayac == 1) {
+          return yaziSecim(secim.birinciEkran, arac);
+        } else {
+          return yaziSecim(secim.ikinciEkran, arac);
+        }
+      } else if (secim.birinciEkran != null && secim.ucunucuEkran != null) {
+        if (yaziSayac == 1) {
+          return yaziSecim(secim.birinciEkran, arac);
+        } else {
+          return yaziSecim(secim.ucunucuEkran, arac);
+        }
+      } else if (secim.birinciEkran != null && secim.dordunucuEkran != null) {
+        if (yaziSayac == 1) {
+          return yaziSecim(secim.birinciEkran, arac);
+        } else {
+          return yaziSecim(secim.dordunucuEkran, arac);
+        }
+      } else if (secim.ikinciEkran != null && secim.ucunucuEkran != null) {
+        if (yaziSayac == 1) {
+          return yaziSecim(secim.ikinciEkran, arac);
+        } else {
+          return yaziSecim(secim.ucunucuEkran, arac);
+        }
+      } else if (secim.ikinciEkran != null && secim.dordunucuEkran != null) {
+        if (yaziSayac == 1) {
+          return yaziSecim(secim.ikinciEkran, arac);
+        } else {
+          return yaziSecim(secim.dordunucuEkran, arac);
+        }
+      } else {
+        if (yaziSayac == 1) {
+          return yaziSecim(secim.ucunucuEkran, arac);
+        } else {
+          return yaziSecim(secim.dordunucuEkran, arac);
+        }
+      }
+    } else if (secim.kontrol == 3) {
+      if (secim.birinciEkran != null &&
+          secim.ikinciEkran != null &&
+          secim.ucunucuEkran != null) {
+        if (yaziSayac == 1) {
+          return yaziSecim(secim.birinciEkran, arac);
+        } else if (yaziSayac == 2) {
+          return yaziSecim(secim.ikinciEkran, arac);
+        } else {
+          return yaziSecim(secim.ucunucuEkran, arac);
+        }
+      } else if (secim.birinciEkran != null &&
+          secim.ikinciEkran != null &&
+          secim.dordunucuEkran != null) {
+        if (yaziSayac == 1) {
+          return yaziSecim(secim.birinciEkran, arac);
+        } else if (yaziSayac == 2) {
+          return yaziSecim(secim.ikinciEkran, arac);
+        } else {
+          return yaziSecim(secim.dordunucuEkran, arac);
+        }
+      } else if (secim.birinciEkran != null &&
+          secim.ucunucuEkran != null &&
+          secim.dordunucuEkran != null) {
+        if (yaziSayac == 1) {
+          return yaziSecim(secim.birinciEkran, arac);
+        } else if (yaziSayac == 2) {
+          return yaziSecim(secim.ucunucuEkran, arac);
+        } else {
+          return yaziSecim(secim.dordunucuEkran, arac);
+        }
+      } else if (secim.ikinciEkran != null &&
+          secim.ucunucuEkran != null &&
+          secim.dordunucuEkran != null) {
+        if (yaziSayac == 1) {
+          return yaziSecim(secim.ikinciEkran, arac);
+        } else if (yaziSayac == 2) {
+          return yaziSecim(secim.ucunucuEkran, arac);
+        } else {
+          return yaziSecim(secim.dordunucuEkran, arac);
+        }
+      }
+    } else if (secim.kontrol == 4) {
+      if (yaziSayac == 1) {
+        return yaziSecim(secim.birinciEkran, arac);
+      } else if (yaziSayac == 2) {
+        return yaziSecim(secim.ikinciEkran, arac);
+      } else if (yaziSayac == 3) {
+        return yaziSecim(secim.ucunucuEkran, arac);
+      } else {
+        return yaziSecim(secim.dordunucuEkran, arac);
+      }
+    }
+  }
+
+  yaziSecim(String secim, Arac arac) {
+    if (secim == "yuzKilometre") {
       return Container(
         margin: EdgeInsets.only(left: 10, right: 10),
         child: AutoSizeText(
@@ -419,7 +573,7 @@ class Textt {
           maxLines: 1,
         ),
       );
-    } else if (yaziSayac == 2) {
+    } else if (secim == "liraKilometre") {
       return Container(
         margin: EdgeInsets.only(left: 10, right: 10),
         child: AutoSizeText(
@@ -431,7 +585,17 @@ class Textt {
           maxLines: 1,
         ),
       );
-    } else if (yaziSayac == 3) {
+    } else if (secim == "kilometreLitre") {
+      return Container(
+        margin: EdgeInsets.only(left: 10, right: 10),
+        child: AutoSizeText(
+          Hesaplamalar(arac: arac).litredeGidilenKm().toStringAsFixed(2) +
+              " km/litre",
+          style: TextStyle(fontFamily: "GrotesklyYours", fontSize: 40),
+          maxLines: 2,
+        ),
+      );
+    } else if (secim == "sonYakit") {
       return Container(
         margin: EdgeInsets.only(left: 10, right: 10),
         child: AutoSizeText(
@@ -442,11 +606,61 @@ class Textt {
           maxLines: 2,
         ),
       );
-    } else if (yaziSayac == 4) {
+    } else if (secim == "yuzKilometreOrtalama") {
+      return Container(
+        margin: EdgeInsets.only(left: 10, right: 10),
+        child: AutoSizeText(
+          Hesaplamalar(arac: arac).yuzKilometreOrtalama().toStringAsFixed(1) +
+              " Litre/100km Ortalama",
+          style: TextStyle(fontFamily: "GrotesklyYours", fontSize: 40),
+          maxLines: 1,
+        ),
+      );
+    } else if (secim == "aracKilometre") {
       return Container(
         margin: EdgeInsets.only(left: 10, right: 10),
         child: AutoSizeText(
           arac.kilometre.toString() + " Kilometre",
+          style: TextStyle(fontFamily: "GrotesklyYours", fontSize: 40),
+          maxLines: 1,
+        ),
+      );
+    } else if (secim == "geneldeAlinanYakit") {
+      return Container(
+        margin: EdgeInsets.only(left: 10, right: 10),
+        child: AutoSizeText(
+          Hesaplamalar(arac: arac).geneldeAlinanYakit() +
+              " Litre Genelde Alınan Yakıt",
+          style: TextStyle(fontFamily: "GrotesklyYours", fontSize: 40),
+          maxLines: 1,
+        ),
+      );
+    } else if (secim == "liraKilometreOrtalama") {
+      return Container(
+        margin: EdgeInsets.only(left: 10, right: 10),
+        child: AutoSizeText(
+          Hesaplamalar(arac: arac)
+                  .kilometredeYakilanOrtalamaKurus()
+                  .toStringAsFixed(2) +
+              " TL/km Ortalama",
+          style: TextStyle(fontFamily: "GrotesklyYours", fontSize: 40),
+          maxLines: 1,
+        ),
+      );
+    } else if (secim == "tahminiMenil") {
+      return Container(
+        margin: EdgeInsets.only(left: 10, right: 10),
+        child: AutoSizeText(
+          Hesaplamalar(arac: arac).tahminiMenzil() + " Km Tahmini Menzil",
+          style: TextStyle(fontFamily: "GrotesklyYours", fontSize: 40),
+          maxLines: 1,
+        ),
+      );
+    } else if (secim == "gecenAyAlinanYakit") {
+      return Container(
+        margin: EdgeInsets.only(left: 10, right: 10),
+        child: AutoSizeText(
+          "Geçen Ay Alınan Yakıt " + arac.aylikyakit.toString() + " Lira",
           style: TextStyle(fontFamily: "GrotesklyYours", fontSize: 40),
           maxLines: 1,
         ),

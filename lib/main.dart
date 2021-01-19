@@ -49,10 +49,7 @@ class EkranSecimi extends StatelessWidget {
           if (this.ekransecim == 1) {
             return IlkYakitEkrani();
           } else if (this.ekransecim == 2) {
-            return AnaEkran(
-              sayi: 1,
-            );
-            // return AnaEkran();
+            return AnaEkranGecis();
           } else {
             return Bilgilendirme();
           }

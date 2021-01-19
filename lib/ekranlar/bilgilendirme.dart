@@ -188,7 +188,7 @@ class _Bilgilendirme2State extends State<Bilgilendirme2> {
               child: Container(
                 margin: EdgeInsets.only(left: 20, right: 20, bottom: 25),
                 child: Text(
-                  "Ortada bulunan büyük butona bastığında aracının bazı özelliklerini görebilirsin.",
+                  "Ortada bulunan büyük butona bastığında aracının bazı özelliklerini görebilirsin. Basılı tuttuğunda butonda ki yazıları düzenleyebilirsin.",
                   style: TextStyle(
                     color: Colors.orange,
                     fontFamily: "GrotesklyYours",
@@ -466,7 +466,7 @@ class _Bilgilendirme5State extends State<Bilgilendirme5> {
                 child: Align(
               alignment: Alignment.center,
               child: AspectRatio(
-                aspectRatio: 900 / 1126,
+                aspectRatio: 1 / 1,
                 child: Container(
                   child: FlareActor(
                     "assets/animations/bilgilendirme.flr",

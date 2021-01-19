@@ -42,12 +42,12 @@ class _MaliyetEkrani4State extends State<MaliyetEkrani4> {
     grafik();
     return Scaffold(
       backgroundColor: const Color(0xFF9B48A6),
-      body: SafeArea(
-        child: Center(
-          child: Container(
-            child: Stack(
-              children: [
-                Column(
+      body: Center(
+        child: Container(
+          child: Stack(
+            children: [
+              SafeArea(
+                child: Column(
                   children: [
                     Align(
                       alignment: Alignment.topCenter,
@@ -95,42 +95,44 @@ class _MaliyetEkrani4State extends State<MaliyetEkrani4> {
                     )
                   ],
                 ),
-                Align(
-                  alignment: Alignment.bottomCenter,
-                  child: Row(
-                    children: [
-                      Expanded(
-                        child: Container(
-                          height: 3,
+              ),
+              Align(
+                alignment: Alignment.bottomCenter,
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: Container(
+                        height: 3,
+                      ),
+                    ),
+                    Expanded(
+                      child: Container(
+                        height: 3,
+                        margin: EdgeInsets.only(
+                          left: 5,
+                          right: 5,
+                        ),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(20),
+                          boxShadow: [
+                            BoxShadow(
+                                color: const Color(0xFF2C2C32),
+                                blurRadius: 5.0,
+                                spreadRadius: 5.0)
+                          ],
                         ),
                       ),
-                      Expanded(
-                        child: Container(
-                          height: 3,
-                          margin: EdgeInsets.only(
-                            left: 5,
-                            right: 5,
-                          ),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(20),
-                            boxShadow: [
-                              BoxShadow(
-                                  color: const Color(0xFF2C2C32),
-                                  blurRadius: 5.0,
-                                  spreadRadius: 5.0)
-                            ],
-                          ),
-                        ),
+                    ),
+                    Expanded(
+                      child: Container(
+                        height: 3,
                       ),
-                      Expanded(
-                        child: Container(
-                          height: 3,
-                        ),
-                      ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
-                Align(
+              ),
+              SafeArea(
+                child: Align(
                   alignment: Alignment.bottomLeft,
                   child: Container(
                     width: 178,
@@ -144,8 +146,8 @@ class _MaliyetEkrani4State extends State<MaliyetEkrani4> {
                     ),
                   ),
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),

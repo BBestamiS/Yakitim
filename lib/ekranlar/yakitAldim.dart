@@ -243,7 +243,7 @@ class _YakitAldimState extends State<YakitAldim> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => AnaEkran(),
+                    builder: (context) => AnaEkranGecis(),
                   ),
                 );
               } else {
@@ -580,7 +580,7 @@ class _YakitAldimState extends State<YakitAldim> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => AnaEkran(),
+                              builder: (context) => AnaEkranGecis(),
                             ),
                           );
                         },
@@ -603,7 +603,7 @@ class _YakitAldimState extends State<YakitAldim> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => AnaEkran(),
+                    builder: (context) => AnaEkranGecis(),
                   ),
                 );
               }
@@ -710,7 +710,7 @@ class _YakitAldimState extends State<YakitAldim> {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => AnaEkran(),
+                builder: (context) => AnaEkranGecis(),
               ),
             );
           },
